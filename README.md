@@ -30,6 +30,7 @@ We will be open and honest about our ideas, accomplishments, challenges, and fru
 3. Pairing - A majority of our work will be done in pairs. However, an individual may break off for spikes or other situations that call for it.
 
 4. Known time frames for team members:
+
 * Betsy - Will not be working at DBC past 10 - 10:30 pm. Wants to work on synching things, pushing simultaneous updates. Appreciates help getting things started.
 
 * Chris - Will not be at DBC on the weekends prior to 12:00 pm. Strong at MVC/CRUD. Wants to implement and dive into new technologies.
