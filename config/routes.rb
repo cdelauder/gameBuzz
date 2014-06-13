@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  get 'login' => 'sessions#new' :as =>'login'
+  get 'login' => 'sessions#new', :as =>'login'
   get 'logout' => 'sessions#destroy', :as => 'logout'
-  root :to => 'users#show', :as => 'home'
+
+  resources :quizzes, :only => [:index, :show]
+
+  root :to => 'quizzes#index'
 end
