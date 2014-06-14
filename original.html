@@ -10,7 +10,9 @@
   <button value="submit" class="b">
   <script>
     var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
-    $(document).ready(function() {
+    // $(document).ready(function() {
+    //   myDataRef.push({question: "Who is playing in the Stanley Cup Finals?", answer: "Rangers"});
+    // })
     $('#messageInput').keypress(function (e) {
       if (e.keyCode == 13) {
         var name = $('#nameInput').val();
@@ -36,15 +38,15 @@
 
 
     $('.b').on('click', function() {
+      debugger
         var data = myDataRef.child("chris")
         console.log(data)
       // ('<p>'+data+'</p>').appendTo($('.b'))
     })
 
-  })
 
   </script>
 </body>
 </html>
 
-new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/').once('value', function(e) { console.log(e.val())})
+<!--new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/').once('value', function(e) { console.log(e.val())})-->
