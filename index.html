@@ -6,11 +6,11 @@
 <body>
   <script>
     var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
-    var question
+    var questions
     $(document).ready(function() {
       myDataRef.limit(1).once('value', function(e) {
-        question = e.val()
-        question = question["-JPO-bDsvjRScHW9NP33"].questions
+        questions = e.val()
+        questions = questions["-JPO-bDsvjRScHW9NP33"].questions
       })
     });
   </script>
