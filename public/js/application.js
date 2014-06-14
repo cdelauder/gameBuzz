@@ -42,4 +42,11 @@ function startGame() {
 
 var currentScore = 0
 
-var UpdateScore
+var increaseScore = function(answerStatus) {
+  answerStatus ? currentScore++ : currentScore;
+  return currentScore
+}
+
+var displayScore = function() {
+  return currentScore
+}
