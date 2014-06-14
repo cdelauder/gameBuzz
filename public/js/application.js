@@ -38,6 +38,7 @@ function facebookAdios() {
   //     // Person is now logged out
   // });
   auth.logout()
+
 }
 
 //=================================================
@@ -63,4 +64,15 @@ function checkAnswer() {
   } else {
     console.log('Incorrect Answer')
   }
+}
+
+var currentScore = 0
+
+var increaseScore = function(answerStatus) {
+  answerStatus ? currentScore++ : currentScore;
+  return currentScore
+}
+
+var displayScore = function() {
+  return currentScore
 }
