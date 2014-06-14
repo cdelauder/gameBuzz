@@ -4,47 +4,18 @@
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
 </head>
 <body>
-  <div id='messagesDiv'></div>
-  <input type='text' id='nameInput' placeholder='Name'>
-  <input type='text' id='messageInput' placeholder='Message'>
-  <button value="submit" class="b">
   <script>
     var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
+    var questions = []
     $(document).ready(function() {
-    $('#messageInput').keypress(function (e) {
-      if (e.keyCode == 13) {
-        var name = $('#nameInput').val();
-        var text = $('#messageInput').val();
-        myDataRef.push({question: {name: name, text: text}});
-        $('#nameInput').val('');
-        $('#messageInput').val('');
+      myDataRef.limit(1).once('value', function(e) { var questionData = e.val()
+      questions = questionData["-JPO-bDsvjRScHW9NP33"].questions
+      debugger
+      for (i=0;i<questions.length;i++) {
+         console.log(questions[i].question)
       }
+      })
     });
-    myDataRef.on('child_added', function(snapshot) {
-      var message = snapshot.val();
-      if (message.name) {
-        displayChatMessage(message.name, message.text);
-      }
-      if (message.question){
-        displayChatMessage(message.question, message.answer);
-      }
-    });
-    function displayChatMessage(name, text) {
-      $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-      $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
-    };
-
-
-    $('.b').on('click', function() {
-        var data = myDataRef.child("chris")
-        console.log(data)
-      // ('<p>'+data+'</p>').appendTo($('.b'))
-    })
-
-  })
-
   </script>
 </body>
 </html>
-
-new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/').once('value', function(e) { console.log(e.val())})
