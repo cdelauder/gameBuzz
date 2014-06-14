@@ -1,4 +1,4 @@
-git mGEM
+GEM
   remote: https://rubygems.org/
   specs:
     activemodel (3.2.12)
