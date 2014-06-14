@@ -18,13 +18,23 @@ $(document).ready(function() {
 });
 
 function bindEventListeners() {
-  $('button').on('click', facebookAdios)
+  $('#logout').on('click', facebookAdios)
+  $('.start').on('click', startGame)
 }
 
 function facebookAdios() {
-  console.log('fuck!!!!')
+  console.log('hitting Adios!!!!')
   // FB.logout(function(response) {
   //     // Person is now logged out
   // });
   auth.logout()
+}
+
+//=================================================
+//Start game functionality
+//=================================================
+
+function startGame() {
+  $('.start').hide()
+  $('.quiz-box').show()
 }

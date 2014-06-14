@@ -1,10 +1,35 @@
-.container {
-  margin: 20px auto;
-  width: 600px;
-  padding: 0px 20px 20px 20px;
-  border: 1px dotted black;
+body {
+  background: #ccc;
 }
 
-th {
-  text-align: left;
+.container {
+  margin: 20px auto;
+  width: 80%;
+  height: 420px;
+  padding: 0px 20px 20px 20px;
+}
+
+.logo {
+  text-align: center
+}
+
+.btn {
+  width: 70%;
+  border-radius: 5px;
+  border: 3px solid #999;
+  margin: 0 auto;
+  padding: 10px;
+  background: #000;
+  text-align: center;
+  color: #fff;
+  font-size: 1.2em;
+}
+
+.quiz-box {
+  display: none;
+  background: #000;
+  width: 85%;
+  margin: 0 auto;
+  color: #fff;
+  text-align: center;
 }
