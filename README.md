@@ -38,3 +38,11 @@ We will be open and honest about our ideas, accomplishments, challenges, and fru
 * Cooper - Good with models/associations and db related items. Likes MVC, JS. Appreciates help getting things started.
 
 * Sean - Good with front-end. Wants to dive deeper into JS and new techs. Appreciates honest feedback and solving problems.
+
+How to run seed file:
+Install Node
+
+Install NPM (Node Package Manager)
+  curl http://npmjs.org/install.sh | sh
+
+node seed.js
