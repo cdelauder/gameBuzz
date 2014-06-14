@@ -1,4 +1,13 @@
+  var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
+  var questions
+  var questionId = 1
+
 $(document).ready(function() {
+  myDataRef.limit(1).once('value', function(e) {
+    questions = e.val()
+    questions = questions["-JPO-bDsvjRScHW9NP33"].questions
+  });
+
   var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
 
   auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
@@ -20,6 +29,7 @@ $(document).ready(function() {
 function bindEventListeners() {
   $('#logout').on('click', facebookAdios)
   $('.start').on('click', startGame)
+  $('.answer').on('click', checkAnswer)
 }
 
 function facebookAdios() {
@@ -37,4 +47,20 @@ function facebookAdios() {
 function startGame() {
   $('.start').hide()
   $('.quiz-box').show()
+  $('.question').text(questions[questionId].question)
+  $('#0').text(questions[questionId].answers[0])
+  $('#1').text(questions[questionId].answers[1])
+  $('#2').text(questions[questionId].answers[2])
+  $('#3').text(questions[questionId].answers[3])
+}
+
+function checkAnswer() {
+  //this checks if the tapped answer is the
+  //correct answer or not
+  console.log(event.target.id)
+  if(questions[questionId].correct_id == event.target.id) {
+    console.log('Correct Answer')
+  } else {
+    console.log('Incorrect Answer')
+  }
 }
