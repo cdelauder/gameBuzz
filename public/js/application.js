@@ -28,6 +28,7 @@ function facebookAdios() {
   //     // Person is now logged out
   // });
   auth.logout()
+
 }
 
 //=================================================
@@ -38,3 +39,7 @@ function startGame() {
   $('.start').hide()
   $('.quiz-box').show()
 }
+
+var currentScore = 0
+
+var UpdateScore
