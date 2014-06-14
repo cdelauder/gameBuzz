@@ -28,7 +28,3 @@ function facebookAdios() {
   // });
   auth.logout()
 }
-
-
-
-
