@@ -37,10 +37,13 @@ Controller.prototype = {
 
   },
   checkAnswer: function() {
-    if(questions[this.game.questionId].correct_id == event.target.dataset.id) {
-      console.log('Correct Answer')
+    var correctAnswer = questions[this.game.questionId].correct_id
+    if(correctAnswer == event.target.dataset.id) {
+      event.target.style.background = '#00FF00';
     } else {
-      console.log('Incorrect Answer')
+      event.target.style.background = '#FF0000';
+      var answers = this.view.getAnswers()
+      answers[correctAnswer].style.background = '#00FF00';
     }
   }
 }
