@@ -6,7 +6,6 @@ function Controller(view, game) {
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout()
-    getLogout.addEventListener('click', this.logout.bind(this), false);
     var getStart = this.view.getStart()
     getStart.addEventListener('click', this.startGame.bind(this), false);
   },
@@ -37,13 +36,34 @@ Controller.prototype = {
 
   },
   checkAnswer: function() {
-    var correctAnswer = questions[this.game.questionId].correct_id
-    if(correctAnswer == event.target.dataset.id) {
+    var correctAnswerId = questions[this.game.questionId].correct_id
+    var correct
+    if(correctAnswerId == event.target.dataset.id) {
       event.target.style.background = '#00FF00';
+      correct = true
     } else {
       event.target.style.background = '#FF0000';
-      var answers = this.view.getAnswers()
-      answers[correctAnswer].style.background = '#00FF00';
+      setTimeout(this.showCorrectAnswer.bind(this), 250)
+      correct = false
     }
+    this.increaseScore(correct)
+    this.nextQuestion()
+  },
+
+  showCorrectAnswer: function() {
+    var correctAnswerId = questions[this.game.questionId].correct_id
+    var answers = this.view.getAnswers()
+    answers[correctAnswerId].style.background = '#00FF00';
+  },
+
+  increaseScore: function(answerStatus) {
+    answerStatus ? this.game.currentScore++ : this.game.currentScore;
+    return this.game.currentScore
+  },
+
+  nextQuestion: function() {
+    var nextQuestionId = this.game.nextQuestionId()
+    setTimeout(this.view.removeLastQuestion(), 1000)
+    this.loadQuestion()
   }
 }

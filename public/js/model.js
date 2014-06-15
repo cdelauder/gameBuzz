@@ -11,5 +11,9 @@ Game.prototype = {
     questions = e.val()
     questions = questions["-JPO-bDsvjRScHW9NP33"].questions
     });
+  },
+
+  nextQuestionId: function() {
+    return this.questionId++
   }
 }

@@ -39,5 +39,10 @@ View.prototype = {
     for(i=0;i<answers.length;i++) {
       answerFields[i].innerHTML = answers[i]
     }
+  },
+  removeLastQuestion: function() {
+    this.getQuestionField.innerHTML = ""
+    this.getAnswers.innerHTML = ""
+    this.getAnswers.style = ''
   }
 }
