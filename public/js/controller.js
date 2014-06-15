@@ -20,10 +20,10 @@ Controller.prototype = {
     this.loadQuestion()
   },
   loadQuestion: function() {
-    var currentQuestion = questions[this.game.questionId].question
-    var currentAnswers = questions[this.game.questionId].answers
-    this.view.displayQuestion(currentQuestion)
-    this.view.displayAnswers(currentAnswers)
+    var question = this.game.loadQuestion()
+    var answers = this.game.loadAnswers()
+    this.view.displayQuestion(question)
+    this.view.displayAnswers(answers)
     this.addAnswerListeners()
   },
   addAnswerListeners: function() {
@@ -33,20 +33,23 @@ Controller.prototype = {
     }
   },
   removeAnswerListeners: function() {
-
+    var answers = this.view.getAnswers()
+    for(i=0;i<answers.length;i++) {
+      answers[i].removeEventListener('click', this.checkAnswer.bind(this), false);
+    }
   },
   checkAnswer: function() {
-    var correctAnswerId = questions[this.game.questionId].correct_id
-    var correct = 0
+    var correctAnswerId = this.game.correctAnswerId()
     if(correctAnswerId == event.target.dataset.id) {
       event.target.style.background = '#00FF00';
-      this.currentScore = this.currentScore + 1;
+      this.game.currentScore++;
     } else {
       event.target.style.background = '#FF0000';
       var answers = this.view.getAnswers()
       answers[correctAnswerId].style.background = '#00FF00';
     }
-    this.game.nextQuestionId()
+    this.removeAnswerListeners()
+    this.game.incrementQuestionId()
     setTimeout(this.loadQuestion.bind(this), 3000)
-  },
+  }
 }

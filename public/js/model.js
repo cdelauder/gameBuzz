@@ -12,8 +12,16 @@ Game.prototype = {
     questions = questions["-JPO-bDsvjRScHW9NP33"].questions
     });
   },
-
-  nextQuestionId: function() {
-    this.questionId = this.questionId + 1;
+  incrementQuestionId: function() {
+    this.questionId++;
+  },
+  loadQuestion: function() {
+    return questions[this.questionId].question
+  },
+  loadAnswers: function() {
+    return questions[this.questionId].answers
+  },
+  correctAnswerId: function() {
+    return questions[this.questionId].correct_id
   }
 }
