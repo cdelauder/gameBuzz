@@ -5,8 +5,8 @@ function Controller(view, game) {
 
 Controller.prototype = {
   bindListeners: function() {
-    var getLogout = this.view.getLogout()
-    var getStart = this.view.getStart()
+    var getLogout = this.view.getLogout();
+    var getStart = this.view.getStart();
     getStart.addEventListener('click', this.startGame.bind(this), false);
   },
 
@@ -15,15 +15,23 @@ Controller.prototype = {
     //this.currentUser = nil
   },
   startGame: function() {
-    this.view.hideStartButton()
-    this.view.displayQuizBox()
-    this.loadQuestion()
+    this.view.hideStartButton();
+    this.view.displayQuizBox();
+    this.loadQuestion();
   },
   loadQuestion: function() {
-    var currentQuestion = questions[this.game.questionId].question
-    var currentAnswers = questions[this.game.questionId].answers
-    this.view.displayQuestion(currentQuestion)
-    this.view.displayAnswers(currentAnswers)
+    var promise = this.game.loadQuestions()
+    var that = this
+    promise.then(function(value) {
+      console.log("hello");
+    // debugger
+      that.view.displayQuestion(that.game.currentQuestion(value))
+    }, function(value) {
+      console.log('you suck more');
+    });
+
+
+    // this.view.displayAnswers(this.game.currentAnswers())
     this.addAnswerListeners()
   },
   addAnswerListeners: function() {

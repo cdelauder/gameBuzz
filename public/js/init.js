@@ -11,5 +11,5 @@ $(document).ready(function() {
   var game = new Game()
   var controller = new Controller(view, game)
   controller.bindListeners()
-  controller.game.loadQuestions()
+  // controller.game.loadQuestions()
 })
