@@ -37,33 +37,16 @@ Controller.prototype = {
   },
   checkAnswer: function() {
     var correctAnswerId = questions[this.game.questionId].correct_id
-    var correct
+    var correct = 0
     if(correctAnswerId == event.target.dataset.id) {
       event.target.style.background = '#00FF00';
-      correct = true
+      this.currentScore = this.currentScore + 1;
     } else {
       event.target.style.background = '#FF0000';
-      setTimeout(this.showCorrectAnswer.bind(this), 250)
-      correct = false
+      var answers = this.view.getAnswers()
+      answers[correctAnswerId].style.background = '#00FF00';
     }
-    this.increaseScore(correct)
-    this.nextQuestion()
+    this.game.nextQuestionId()
+    setTimeout(this.loadQuestion.bind(this), 3000)
   },
-
-  showCorrectAnswer: function() {
-    var correctAnswerId = questions[this.game.questionId].correct_id
-    var answers = this.view.getAnswers()
-    answers[correctAnswerId].style.background = '#00FF00';
-  },
-
-  increaseScore: function(answerStatus) {
-    answerStatus ? this.game.currentScore++ : this.game.currentScore;
-    return this.game.currentScore
-  },
-
-  nextQuestion: function() {
-    var nextQuestionId = this.game.nextQuestionId()
-    setTimeout(this.view.removeLastQuestion(), 1000)
-    this.loadQuestion()
-  }
 }

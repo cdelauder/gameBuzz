@@ -14,6 +14,6 @@ Game.prototype = {
   },
 
   nextQuestionId: function() {
-    return this.questionId++
+    this.questionId = this.questionId + 1;
   }
 }

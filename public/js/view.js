@@ -38,11 +38,7 @@ View.prototype = {
     var answerFields = this.getAnswers()
     for(i=0;i<answers.length;i++) {
       answerFields[i].innerHTML = answers[i]
+      answerFields[i].style.background = '#000'
     }
-  },
-  removeLastQuestion: function() {
-    this.getQuestionField.innerHTML = ""
-    this.getAnswers.innerHTML = ""
-    this.getAnswers.style = ''
   }
 }
