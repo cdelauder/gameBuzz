@@ -7,19 +7,15 @@ function Game() {
 Game.prototype = {
   loadQuestions: function() {
     var questionData = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
-
+    var that = this
     var promise = new RSVP.Promise(function(resolve, reject) {
-
       questionData.limit(1).once('value', function(e) {
         if (e !== undefined) {
-        console.log('work');
-
+          that.questionSet = e.val()["-JPO-bDsvjRScHW9NP33"].questions
           resolve( e.val()["-JPO-bDsvjRScHW9NP33"].questions );
         }
         else
         {
-        console.log('should');
-
           reject( console.log("shit is messssssed up ERROR"));
         }
       });
@@ -29,17 +25,22 @@ Game.prototype = {
   },
 
     currentQuestion: function(value) {
-    // debugger
-    // this.questionSet = this.loadQuestions()
+      debugger
     return value[this.questionId].question
   },
 
-  currentAnswers: function() {
-    return this.questionSet[this.questionId].answers
+  currentAnswers: function(value) {
+    return value[this.questionId].answers
   },
 
   nextQuestionId: function() {
     this.questionId = this.questionId + 1;
+  },
+  nextQuestion: function() {
+    return questionSet[this.questionId].question
+  },
+  nextAnswers: function() {
+    return questionSet[this.questionId].answers
   },
 
 

@@ -17,23 +17,21 @@ Controller.prototype = {
   startGame: function() {
     this.view.hideStartButton();
     this.view.displayQuizBox();
-    this.loadQuestion();
+    this.loadFirstQuestion();
   },
-  loadQuestion: function() {
+
+  loadFirstQuestion: function() {
     var promise = this.game.loadQuestions()
     var that = this
     promise.then(function(value) {
-      console.log("hello");
-    // debugger
       that.view.displayQuestion(that.game.currentQuestion(value))
+      that.view.displayAnswers(that.game.currentAnswers(value))
+      this.addAnswerListeners()
     }, function(value) {
       console.log('you suck more');
     });
-
-
-    // this.view.displayAnswers(this.game.currentAnswers())
-    this.addAnswerListeners()
   },
+
   addAnswerListeners: function() {
     var answers = this.view.getAnswers()
     for(i=0;i<answers.length;i++) {
@@ -57,4 +55,9 @@ Controller.prototype = {
     this.game.nextQuestionId()
     setTimeout(this.loadQuestion.bind(this), 3000)
   },
+
+  loadQuestion: function() {
+    this.view.displayQuestion(this.game.nextQuestion())
+    this.view.displayAnswers(this.game.displayAnswers())
+  }
 }
