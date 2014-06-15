@@ -2,12 +2,8 @@ function View(opts) {
     this.startButton = opts['start']
     this.logout = opts['logout']
     this.quizBox = opts['quizBox']
-    this.questionBox = opts['questionBox']
-    this.answer = opts['answer']
-    this.answer0 = opts['answer0']
-    this.answer1 = opts['answer1']
-    this.answer2 = opts['answer2']
-    this.answer3 = opts['answer3']
+    this.questionField = opts['questionField']
+    this.answers = opts['answer']
   }
 
   View.prototype = {
@@ -20,22 +16,28 @@ function View(opts) {
     getQuizBox: function() {
       return document.querySelector(this.quizBox)
     },
-    getQuestionBox: function() {
-      return document.querySelector(this.questionBox)
+    getQuestionField: function() {
+      return document.querySelector(this.questionField)
     },
-    getAnswer: function() {
-      return document.querySelector(this.answer)
+    getAnswers: function() {
+      return document.querySelectorAll(this.answers)
     },
-    getAnswer0: function() {
-      return document.querySelector(this.answer0)
+    hideStartButton: function() {
+      var startButton = this.getStart()
+      startButton.style.display = 'none'
     },
-    getAnswer1: function() {
-      return document.querySelector(this.answer1)
+    displayQuizBox: function() {
+      var quizBox = this.getQuizBox()
+      quizBox.style.display = 'block'
     },
-    getAnswer2: function() {
-      return document.querySelector(this.answer2)
+    displayQuestion: function(question) {
+      var questionField = this.getQuestionField()
+      questionField.innerHTML = question
     },
-    getAnswer3: function() {
-      return document.querySelector(this.answer3)
+    displayAnswers: function(answers) {
+      var answerFields = this.getAnswers()
+      for(i=0;i<answers.length;i++) {
+        answerFields[i].innerHTML = answers[i]
+      }
     }
   }
