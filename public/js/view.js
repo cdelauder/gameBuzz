@@ -45,6 +45,7 @@ View.prototype = {
 
   userLoggedOut: function() {
     this.hideLogoutButton();
+    this.hideStartButton();
     this.hideScore();
     this.hideQuizBox();
     this.displayLogin();
@@ -59,7 +60,7 @@ View.prototype = {
   },
 
   hideLoginButton: function() {
-    this.getLogin.css('display', 'none');
+    this.getLogin().css('display', 'none');
   },
 
   hideLogoutButton: function() {
@@ -83,7 +84,7 @@ View.prototype = {
   },
 
   displayStart: function() {
-    this.getStart.css('display', 'block');
+    this.getStart().css('display', 'block');
   },
 
   displayAnswers: function(answers) {
