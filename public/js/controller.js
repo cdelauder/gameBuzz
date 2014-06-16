@@ -128,6 +128,8 @@ Controller.prototype = {
   checkGameOver: function() {
     if (this.game.gameOver()) {
       this.view.endGame(this.game.displayScore());
+      this.stopQuestionTimer();
+      this.view.hideTimer();
       this.game.resetQuestionId();
     }
   },
