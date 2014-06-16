@@ -51,7 +51,6 @@ Controller.prototype = {
     } else {
       this.view.makeIncorrectAnswerRed(event.target);
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-
     }
     this.game.nextQuestionId();
     setTimeout(this.loadQuestion.bind(this), 500);
