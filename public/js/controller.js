@@ -1,7 +1,7 @@
 function Controller(view, game) {
   this.view = view;
   this.game = game;
-  this.auth = "";
+  this.authToken = "";
 }
 
 Controller.prototype = {
@@ -14,18 +14,22 @@ Controller.prototype = {
   },
 
   login: function() {
+    this.makeAuthObject();
+    this.auth.login('facebook');
+  },
+
+  makeAuthObject: function() {
     var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
     var that = this;
     this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
       if (error) {
         alert(error);
       } else if (user) {
-        //dom manipulation after logon
+        that.view.userLoggedIn();
       } else {
-        //dom maniupulatio after logout
+        that.view.userLoggedOut();
       }
     });
-    this.auth.login('facebook');
   },
 
   logout: function() {
