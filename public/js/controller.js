@@ -90,6 +90,10 @@ Controller.prototype = {
     this.view.getQuizBox().unbind('click');
   },
 
+  removeTextDecoration: function() {
+    this.view.getAnswers().css('text-decoration', 'none');
+  },
+
   timeRanOut: function() {
     this.removeAnswerListeners();
     this.stopQuestionTimer();
@@ -113,6 +117,7 @@ Controller.prototype = {
   },
 
   loadQuestion: function() {
+    this.removeTextDecoration();
     this.checkGameOver();
     this.startQuestionTimer();
     this.view.displayQuestion(this.game.nextQuestion());
