@@ -15,7 +15,10 @@ Controller.prototype = {
     //this.currentUser = nil
   },
   startGame: function() {
+    this.removeAnswerListeners();
     this.view.hideStartButton();
+    this.view.hideScore();
+    this.game.resetScore();
     this.view.displayQuizBox();
     this.loadFirstQuestion();
   },
@@ -64,6 +67,7 @@ Controller.prototype = {
   checkGameOver: function() {
     if (this.game.gameOver()) {
       this.view.endGame(this.game.displayScore());
+      this.game.resetQuestionId();
     }
   }
 

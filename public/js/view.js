@@ -64,5 +64,9 @@ View.prototype = {
     this.getQuizBox().css('display', 'none');
     this.getGameOver().css('display', 'block').text('You got ' + score + ' correct');
     this.getStart().css('display', 'block');
-  }
+  },
+
+  hideScore: function() {
+    this.getGameOver().css('display', 'none')
+  },
 };
