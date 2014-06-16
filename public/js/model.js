@@ -53,7 +53,7 @@ Game.prototype = {
   },
 
   gameOver: function() {
-    return this.questionSet.length -1 === this.questionId;
+    return this.questionSet.length - 1 === this.questionId;
   },
 
   displayScore: function() {
