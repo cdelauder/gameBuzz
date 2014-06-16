@@ -1,4 +1,5 @@
 $(document).ready(function() {
+// CR move to view
   var domSelectors = {
     start: '.start',
     logout: '#logout',

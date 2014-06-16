@@ -5,6 +5,8 @@ function Game() {
 }
 Game.prototype = {
     loadQuestions: function() {
+      //CR - ANNE CHECK - why not just use AJAX here instead of implementing your own promise architecture.
+
     var questionData = new Firebase('https://gamebuzz.firebaseio.com/');
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
@@ -13,6 +15,8 @@ Game.prototype = {
     // this is sent to the controller which will then fire off the promise.then function which will decide what to do when the data comes back from firebase
     return promise;
   },
+
+// CR move keys out of code - encapuslate into key value pairs within your Firebase object/ module
 
   checkIt: function(resolve, reject, e) {
     if (e !== undefined) {

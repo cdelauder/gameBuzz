@@ -1,3 +1,5 @@
+// CR Move vendor code to a vendor folder - wrap with your own code if you need to test.
+
 (function(global) {
 var define, requireModule, require, requirejs;
 

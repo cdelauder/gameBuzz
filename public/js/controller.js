@@ -19,6 +19,7 @@ Controller.prototype = {
   },
 
   makeAuthObject: function() {
+    // CR create a firebase module or widget to protect your code, make it easier to test and encapsulate the API so you can exchange it if need be.
     var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
     var that = this;
     this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
@@ -72,9 +73,11 @@ Controller.prototype = {
   checkAnswer: function() {
     this.removeAnswerListeners();
     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
+      // CR call this method displayCorrectAnswer
       this.view.makeCorrectAnswerGreen(event.target);
       this.game.increaseScore();
     } else {
+      // CR call this method displayIncorrectAnswer
       this.view.makeIncorrectAnswerRed(event.target);
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
     }

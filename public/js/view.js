@@ -1,4 +1,17 @@
 function View(opts) {
+
+// CR just put these here instead of passing them in.
+  //   var domSelectors = {
+  //   start: '.start',
+  //   logout: '#logout',
+  //   quizBox: '.quiz-box',
+  //   questionField: '.question',
+  //   answer: '.answer',
+  //   gameOver: '.game-over',
+  //   logout: '.logout',
+  //   login: '.login',
+  // };
+
   this.startButton = opts['start'];
   this.logout = opts['logout'];
   this.quizBox = opts['quizBox'];
