@@ -4,7 +4,8 @@ $(document).ready(function() {
     logout: '#logout',
     quizBox: '.quiz-box',
     questionField: '.question',
-    answer: '.answer'
+    answer: '.answer',
+    gameOver: '.game-over'
   };
 
   var view = new View(domSelectors)

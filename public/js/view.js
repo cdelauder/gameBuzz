@@ -4,6 +4,7 @@ function View(opts) {
   this.quizBox = opts['quizBox'];
   this.questionField = opts['questionField'];
   this.answers = opts['answer'];
+  this.gameOver = opts['gameOver']
 }
 
 View.prototype = {
@@ -28,7 +29,7 @@ View.prototype = {
   },
 
   getGameOver: function() {
-    return $('.game-over')
+    return $(this.gameOver)
   },
 
   hideStartButton: function() {
