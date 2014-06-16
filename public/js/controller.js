@@ -51,13 +51,20 @@ Controller.prototype = {
 
     }
     this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 1000);
+    setTimeout(this.loadQuestion.bind(this), 500);
   },
 
   loadQuestion: function() {
+    this.checkGameOver();
     this.view.displayQuestion(this.game.nextQuestion());
     this.view.displayAnswers(this.game.nextAnswers());
     this.addAnswerListeners();
   },
+
+  checkGameOver: function() {
+    if (this.game.gameOver()) {
+      this.view.endGame(this.game.displayScore());
+    }
+  }
 
 };

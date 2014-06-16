@@ -49,7 +49,15 @@ Game.prototype = {
   },
 
   increaseScore: function() {
-    this.currentScore++
+    this.currentScore++;
+  },
+
+  gameOver: function() {
+    return this.questionSet.length -1 === this.questionId;
+  },
+
+  displayScore: function() {
+    return this.currentScore;
   }
 
 

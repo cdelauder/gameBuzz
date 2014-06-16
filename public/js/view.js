@@ -27,6 +27,10 @@ View.prototype = {
     return $(this.answers);
   },
 
+  getGameOver: function() {
+    return $('.gameEnd')
+  },
+
   hideStartButton: function() {
     this.getStart().css('display', 'none');
   },
@@ -53,7 +57,11 @@ View.prototype = {
 
   makeCorrectAnswerGreen: function(target) {
     target.style.background = '#00FF00';
+  },
+
+  endGame: function(score) {
+    this.getQuizBox().css('display', 'none');
+    this.getGameOver().css('display', 'block').text('You got ' + score + ' correct');
+    this.getStart().css('display', 'block');
   }
-
-
 };
