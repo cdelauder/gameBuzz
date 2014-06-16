@@ -72,6 +72,14 @@ img {
   border: 3px solid #fff;
 }
 
+.timer {
+  width: 50%;
+  text-align: center;
+  color: #fff;
+  margin: 20px auto;
+  font-size: 1.5em;
+}
+
 .game-over {
   background: #999;
   width: 50%;
