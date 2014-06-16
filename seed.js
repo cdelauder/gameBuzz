@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var myRootRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com')
+var myRootRef = new Firebase('https://gamebuzz.firebaseio.com')
 myRootRef.push({
   questions:
    [{question: 'Studio albums of what funny musical act include “We Are All Flower People,” “Shark Sandwich,” and “Smell the Glove”?', answers: ["Tenacious D","Spinal Tap","Weird Al","Presidents of the United States of America"], correct_id: 1

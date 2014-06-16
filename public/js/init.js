@@ -8,9 +8,9 @@ $(document).ready(function() {
     gameOver: '.game-over'
   };
 
-  var view = new View(domSelectors)
-  var game = new Game()
-  var controller = new Controller(view, game)
-  controller.bindListeners()
+  var view = new View(domSelectors);
+  var game = new Game();
+  var controller = new Controller(view, game);
+  controller.bindListeners();
   // controller.game.loadQuestions()
-})
+});

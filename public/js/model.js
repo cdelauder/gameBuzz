@@ -5,13 +5,13 @@ function Game() {
 }
 Game.prototype = {
   loadQuestions: function() {
-    var questionData = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
+    var questionData = new Firebase('https://gamebuzz.firebaseio.com/');
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
       questionData.limit(1).once('value', function(e) {
         if (e !== undefined) {
-          that.questionSet = e.val()["-JPO-bDsvjRScHW9NP33"].questions;
-          resolve( e.val()["-JPO-bDsvjRScHW9NP33"].questions );
+          that.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
+          resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
         }
         else
         {
