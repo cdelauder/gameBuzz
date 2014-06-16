@@ -91,7 +91,7 @@ View.prototype = {
     var answerFields = this.getAnswers();
     for(i=0;i<answers.length;i++) {
       answerFields[i].innerHTML = answers[i];
-      answerFields[i].style.background = '#000';
+      answerFields[i].style.background = '#1A31A6';
     }
   },
 
@@ -100,7 +100,7 @@ View.prototype = {
   },
 
   makeCorrectAnswerGreen: function(target) {
-    target.style.background = '#00FF00';
+    target.style.background = '#594505';
   },
 
   endGame: function(score) {
