@@ -28,7 +28,7 @@ View.prototype = {
   },
 
   getGameOver: function() {
-    return $('.gameEnd')
+    return $('.game-over')
   },
 
   hideStartButton: function() {
