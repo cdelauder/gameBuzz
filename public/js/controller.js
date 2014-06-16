@@ -14,6 +14,7 @@ Controller.prototype = {
     //WE NEED TO ADD THIS FUNCTIONALITY
     //this.currentUser = nil
   },
+
   startGame: function() {
     this.view.hideStartButton();
     this.view.displayQuizBox();
