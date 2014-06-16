@@ -15,7 +15,10 @@ Controller.prototype = {
     //this.currentUser = nil
   },
   startGame: function() {
+    this.removeAnswerListeners();
     this.view.hideStartButton();
+    this.view.hideScore();
+    this.game.resetScore();
     this.view.displayQuizBox();
     this.loadFirstQuestion();
   },
@@ -48,7 +51,6 @@ Controller.prototype = {
     } else {
       this.view.makeIncorrectAnswerRed(event.target);
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-
     }
     this.game.nextQuestionId();
     setTimeout(this.loadQuestion.bind(this), 500);
@@ -64,6 +66,7 @@ Controller.prototype = {
   checkGameOver: function() {
     if (this.game.gameOver()) {
       this.view.endGame(this.game.displayScore());
+      this.game.resetQuestionId();
     }
   }
 
