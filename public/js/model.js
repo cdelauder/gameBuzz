@@ -60,12 +60,14 @@ Game.prototype = {
   },
 };
 
-var User {
+var User = {
   create: function(name, location) {
     var userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
-    userData.push
+    userData.push({name: name, location: location, available: true});
   },
 
-  updateLocation
+  updateLocation: function(location) {
+
+  },
 };
 

@@ -25,11 +25,37 @@ Controller.prototype = {
       if (error) {
         alert(error);
       } else if (user) {
+        that.locationPromise(user)
         that.view.userLoggedIn();
       } else {
         that.view.userLoggedOut();
       }
     });
+  },
+
+  locationPromise: function(user) {
+    console.log("locationPromise")
+    var that = this;
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      debugger
+      Location.getLocation('value', that.waitForLocation.bind(that, resolve, reject));
+    });
+    promise.then(function(value) {
+      console.log('promise.then')
+      User.create(user.displayName, value);
+    }, function(value){
+      console.log("location then was a reject");
+    });
+  },
+
+  waitForLocation: function(resolve, reject, e) {
+    debugger
+    if (e !== undefined) {
+      console.log("waitForLocation")
+      resolve(e);
+    } else{
+      reject( console.log("location never came"));
+    }
   },
 
   logout: function() {
