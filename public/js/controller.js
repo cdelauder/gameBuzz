@@ -65,6 +65,10 @@ Controller.prototype = {
     this.view.getQuizBox().unbind('click');
   },
 
+  removeTextDecoration: function() {
+    this.view.getAnswers().css('text-decoration', 'none');
+  },
+
   checkAnswer: function() {
     this.removeAnswerListeners();
     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
@@ -79,6 +83,7 @@ Controller.prototype = {
   },
 
   loadQuestion: function() {
+    this.removeTextDecoration();
     this.checkGameOver();
     this.view.displayQuestion(this.game.nextQuestion());
     this.view.displayAnswers(this.game.nextAnswers());

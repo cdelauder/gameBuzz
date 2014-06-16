@@ -1,12 +1,32 @@
-body {
-  background: #ccc;
+/* Color Pallette
+===========================
+dark blue page background: #051359;
+lighterblue question bg: #1A31A6;
+mid blue (not used): #051FA6;
+light gold beer/correct answer: #C49400;
+dark gold/incorrect answer: #594505; */
+
+html {
+  background: #051359;
 }
 
-.container {
-  margin: 20px auto;
-  width: 80%;
-  height: 420px;
-  /*padding: 0px 5px 20px 5px;*/
+header {
+  margin: 10px;
+}
+
+header img {
+  display: block;
+  margin: 0 auto;
+
+}
+
+img {
+  max-width: 100%;
+}
+
+.wrapper {
+  max-width: 1096px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -14,33 +34,42 @@ body {
 }
 
 .btn, .answer {
-  width: 70%;
-  border-radius: 5px;
-  border: 3px solid #999;
-  margin: 0 auto;
-  padding: 10px;
-  background: #000;
-  text-align: center;
+  width: 45%;
   color: #fff;
   font-size: 1.2em;
+  text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  background: rgb(26, 49, 165);
+  border-radius: 5px;
+  border: 3px solid #fff;
 }
 
 .quiz-box {
   display: none;
-  /*background: #000;*/
   width: 85%;
   margin: 0 auto;
   color: #fff;
-  /*text-align: center;*/
 }
 
 .question {
-  font-size: 1.25em;
-  margin-bottom: 10px;
+  margin: 10px auto 20px auto;
+  width: 56%;
+  color: #fff;
+  font-size: 1.6em;
 }
 
 .answer {
-  margin-bottom: 7px;
+  /*margin-bottom: 7px;*/
+  width: 45%;
+  color: #fff;
+  font-size: 1.2em;
+  text-align: center;
+  margin: 20px auto;
+  padding: 10px;
+  background: #1A31A6;
+  border-radius: 5px;
+  border: 3px solid #fff;
 }
 
 .game-over {
