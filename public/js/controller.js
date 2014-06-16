@@ -1,6 +1,7 @@
 function Controller(view, game) {
   this.view = view;
   this.game = game;
+  this.authToken = "";
 }
 
 Controller.prototype = {
@@ -8,12 +9,33 @@ Controller.prototype = {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
     getStart.on('click', this.startGame.bind(this));
+    getLogout.on('click', this.logout.bind(this));
+    this.view.getLogin().on('click', this.login.bind(this));
+  },
+
+  login: function() {
+    this.makeAuthObject();
+    this.auth.login('facebook');
+  },
+
+  makeAuthObject: function() {
+    var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
+    var that = this;
+    this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
+      if (error) {
+        alert(error);
+      } else if (user) {
+        that.view.userLoggedIn();
+      } else {
+        that.view.userLoggedOut();
+      }
+    });
   },
 
   logout: function() {
-    //WE NEED TO ADD THIS FUNCTIONALITY
-    //this.currentUser = nil
+    this.auth.logout();
   },
+
   startGame: function() {
     this.removeAnswerListeners();
     this.view.hideStartButton();
@@ -51,7 +73,6 @@ Controller.prototype = {
     } else {
       this.view.makeIncorrectAnswerRed(event.target);
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-
     }
     this.game.nextQuestionId();
     setTimeout(this.loadQuestion.bind(this), 500);

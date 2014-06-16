@@ -5,12 +5,13 @@ $(document).ready(function() {
     quizBox: '.quiz-box',
     questionField: '.question',
     answer: '.answer',
-    gameOver: '.game-over'
+    gameOver: '.game-over',
+    logout: '.logout',
+    login: '.login',
   };
 
-  var view = new View(domSelectors)
-  var game = new Game()
-  var controller = new Controller(view, game)
-  controller.bindListeners()
-  // controller.game.loadQuestions()
-})
+  var view = new View(domSelectors);
+  var game = new Game();
+  var controller = new Controller(view, game);
+  controller.bindListeners();
+});
