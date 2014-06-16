@@ -43,6 +43,30 @@ Controller.prototype = {
     this.game.resetScore();
     this.view.displayQuizBox();
     this.loadFirstQuestion();
+    this.view.displayTimer();
+  },
+
+  startQuestionTimer: function() {
+    this.view.setCountDownTime(20);
+    this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000)
+  },
+
+  countDownTimer: function() {
+    var time = this.view.getCountDownTime()
+    this.deincrementTimer(time)
+  },
+
+  deincrementTimer: function(time) {
+    time --
+    if (time < 0) {
+      this.timeRanOut();
+    } else {
+      this.view.setCountDownTime(time)
+    }
+  },
+
+  stopQuestionTimer: function(time) {
+    clearInterval(this.currentTimer)
   },
 
   loadFirstQuestion: function() {
@@ -52,6 +76,7 @@ Controller.prototype = {
       that.view.displayQuestion(that.game.currentQuestion(value));
       that.view.displayAnswers(that.game.currentAnswers(value));
       that.addAnswerListeners();
+      that.startQuestionTimer();
     }, function(value) {
       console.log('you suck more');
     });
@@ -65,8 +90,17 @@ Controller.prototype = {
     this.view.getQuizBox().unbind('click');
   },
 
+  timeRanOut: function() {
+    this.removeAnswerListeners();
+    this.stopQuestionTimer();
+    this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+    this.game.nextQuestionId();
+    setTimeout(this.loadQuestion.bind(this), 1500);
+  },
+
   checkAnswer: function() {
     this.removeAnswerListeners();
+    this.stopQuestionTimer();
     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
       this.view.makeCorrectAnswerGreen(event.target);
       this.game.increaseScore();
@@ -75,11 +109,12 @@ Controller.prototype = {
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
     }
     this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 500);
+    setTimeout(this.loadQuestion.bind(this), 1000);
   },
 
   loadQuestion: function() {
     this.checkGameOver();
+    this.startQuestionTimer();
     this.view.displayQuestion(this.game.nextQuestion());
     this.view.displayAnswers(this.game.nextAnswers());
     this.addAnswerListeners();
@@ -90,6 +125,6 @@ Controller.prototype = {
       this.view.endGame(this.game.displayScore());
       this.game.resetQuestionId();
     }
-  }
+  },
 
 };

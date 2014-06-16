@@ -6,6 +6,7 @@ function View(opts) {
   this.answers = opts['answer'];
   this.gameOver = opts['gameOver'];
   this.login = opts['login'];
+  this.timer = opts['timer'];
 }
 
 View.prototype = {
@@ -35,6 +36,18 @@ View.prototype = {
 
   getLogin: function() {
     return $(this.login);
+  },
+
+  getTimer: function() {
+    return $(this.timer);
+  },
+
+  getCountDownTime: function() {
+    return this.getTimer().text();
+  },
+
+  setCountDownTime: function(countDownTime) {
+    return this.getTimer().text(countDownTime)
   },
 
   userLoggedIn: function() {
@@ -67,12 +80,20 @@ View.prototype = {
     this.getLogout().css('display', 'none');
   },
 
+  hideTimer: function() {
+    this.getTimer().css('display', 'none');
+  },
+
   displayLogin: function() {
     this.getLogin().css('display', 'block');
   },
 
   displayLogout: function() {
     this.getLogout().css('display', 'block');
+  },
+
+  displayTimer: function() {
+    this.getTimer().css('display', 'block')
   },
 
   displayQuizBox: function() {
@@ -112,4 +133,5 @@ View.prototype = {
   hideScore: function() {
     this.getGameOver().css('display', 'none')
   },
+
 };

@@ -8,6 +8,7 @@ $(document).ready(function() {
     gameOver: '.game-over',
     logout: '.logout',
     login: '.login',
+    timer: '.timer',
   };
 
   var view = new View(domSelectors);
