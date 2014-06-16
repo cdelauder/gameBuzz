@@ -27,37 +27,26 @@ Controller.prototype = {
     this.addAnswerListeners()
   },
   addAnswerListeners: function() {
-    $('.quiz-box').on('click', '.answer', this.checkAnswer.bind(this))
-
-    // var answers = this.view.getAnswers()
-    // for(i=0;i<answers.length;i++) {
-    //   console.log(i)
-    //   answers[i].addEventListener('click', this.checkAnswer.bind(this), false);
-    // }
+    var answers = this.view.getAnswers()
+    for(i=0;i<answers.length;i++) {
+      answers[i].addEventListener('click', this.checkAnswer.bind(this), false);
+    }
   },
-  removeAnswerListeners: function(event) {
-    // $('.quiz-box').undelegate('.answer', 'click', this.test)
-    $('.quiz-box').unbind('click');
-    // var answers = this.view.getAnswers()
-    // for(i=0;i<answers.length;i++) {
-    //   answers[i].removeEventListener('click', this.checkAnswer.bind(this), false);
-    // }
-  },
-
-  checkAnswer: function(event) {
-    this.removeAnswerListeners()
+  checkAnswer: function() {
     var correctAnswerId = this.game.correctAnswerId()
     if(correctAnswerId == event.target.dataset.id) {
-      console.log('in the if')
       event.target.style.background = '#00FF00';
       this.game.currentScore++;
     } else {
-      console.log('in the else')
       event.target.style.background = '#FF0000';
       var answers = this.view.getAnswers()
       answers[correctAnswerId].style.background = '#00FF00';
     }
     this.game.incrementQuestionId()
-    setTimeout(this.loadQuestion.bind(this), 3000)
+    setTimeout(this.nextQuestion.bind(this), 3000)
+  },
+  nextQuestion: function() {
+    this.view.removeQuestion()
+    this.loadQuestion()
   }
 }

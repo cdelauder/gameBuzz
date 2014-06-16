@@ -3,7 +3,7 @@ function View(opts) {
   this.logout = opts['logout']
   this.quizBox = opts['quizBox']
   this.questionField = opts['questionField']
-  this.answers = opts['answer']
+  this.answerField = opts['answer']
 }
 
 View.prototype = {
@@ -20,25 +20,37 @@ View.prototype = {
     return document.querySelector(this.questionField)
   },
   getAnswers: function() {
-    return document.querySelectorAll(this.answers)
+    return document.querySelectorAll(this.answerField)
   },
   hideStartButton: function() {
-    var startButton = this.getStart()
-    startButton.style.display = 'none'
+    this.getStart().style.display = 'none'
   },
   displayQuizBox: function() {
-    var quizBox = this.getQuizBox()
-    quizBox.style.display = 'block'
+    this.getQuizBox().style.display = 'block'
   },
   displayQuestion: function(question) {
-    var questionField = this.getQuestionField()
-    questionField.innerHTML = question
+    var newQuestion = document.createElement('div')
+    newQuestion.className = 'question'
+    newQuestion.innerHTML = question
+    var quizBox = this.getQuizBox()
+    quizBox.appendChild(newQuestion)
   },
   displayAnswers: function(answers) {
-    var answerFields = this.getAnswers()
     for(i=0;i<answers.length;i++) {
-      answerFields[i].innerHTML = answers[i]
-      answerFields[i].style.background = '#000'
+      var newAnswer = document.createElement('div')
+      newAnswer.className = 'answer'
+      newAnswer.setAttribute('dataset-id', i)
+      newAnswer.innerHTML = answers[i]
+      var question = this.getQuestionField()
+      question.appendChild(newAnswer)
     }
+  },
+  removeQuestion: function() {
+    var quizBox = this.getQuizBox()
+    var question = this.getQuestionField()
+    while (question.firstChild) {
+      question.removeChild(question.firstChild)
+    }
+    quizBox.removeChild(question)
   }
 }
