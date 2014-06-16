@@ -96,11 +96,12 @@ View.prototype = {
   },
 
   makeIncorrectAnswerRed: function(target) {
-    target.style.background = "#FF0000";
+    target.style.background = "#594505";
+    target.style.textDecoration = 'line-through';
   },
 
   makeCorrectAnswerGreen: function(target) {
-    target.style.background = '#594505';
+    target.style.background = '#C49400';
   },
 
   endGame: function(score) {
