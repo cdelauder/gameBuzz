@@ -4,7 +4,8 @@ function View(opts) {
   this.quizBox = opts['quizBox'];
   this.questionField = opts['questionField'];
   this.answers = opts['answer'];
-  this.gameOver = opts['gameOver']
+  this.gameOver = opts['gameOver'];
+  this.login = opts['login'];
 }
 
 View.prototype = {
@@ -29,11 +30,49 @@ View.prototype = {
   },
 
   getGameOver: function() {
-    return $(this.gameOver)
+    return $(this.gameOver);
+  },
+
+  getLogin: function() {
+    return $(this.login);
+  },
+
+  userLoggedIn: function() {
+    this.hideLoginButton();
+    this.displayLogout();
+    this.displayStart();
+  },
+
+  userLoggedOut: function() {
+    this.hideLogoutButton();
+    this.hideStartButton();
+    this.hideScore();
+    this.hideQuizBox();
+    this.displayLogin();
+  },
+
+  hideQuizBox: function() {
+    this.getQuizBox().css('display', 'none');
   },
 
   hideStartButton: function() {
     this.getStart().css('display', 'none');
+  },
+
+  hideLoginButton: function() {
+    this.getLogin().css('display', 'none');
+  },
+
+  hideLogoutButton: function() {
+    this.getLogout().css('display', 'none');
+  },
+
+  displayLogin: function() {
+    this.getLogin().css('display', 'block');
+  },
+
+  displayLogout: function() {
+    this.getLogout().css('display', 'block');
   },
 
   displayQuizBox: function() {
@@ -42,6 +81,10 @@ View.prototype = {
 
   displayQuestion: function(question) {
     this.getQuestionField().text(question);
+  },
+
+  displayStart: function() {
+    this.getStart().css('display', 'block');
   },
 
   displayAnswers: function(answers) {
