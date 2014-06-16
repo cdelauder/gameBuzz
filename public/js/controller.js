@@ -7,7 +7,7 @@ Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
-    getStart.addEventListener('click', this.startGame.bind(this), false);
+    getStart.on('click', this.startGame.bind(this));
   },
 
   logout: function() {
@@ -33,11 +33,11 @@ Controller.prototype = {
   },
 
   addAnswerListeners: function() {
-    $('.quiz-box').on('click', '.answer', this.checkAnswer.bind(this));
+    this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
   },
 
   removeAnswerListeners: function() {
-    $('.quiz-box').unbind('click');
+    this.view.getQuizBox().unbind('click');
   },
 
   checkAnswer: function() {
