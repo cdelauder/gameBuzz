@@ -1,6 +1,6 @@
 function Controller(view, game) {
-  this.view = view
-  this.game = game
+  this.view = view;
+  this.game = game;
 }
 
 Controller.prototype = {
@@ -21,43 +21,42 @@ Controller.prototype = {
   },
 
   loadFirstQuestion: function() {
-    var promise = this.game.loadQuestions()
-    var that = this
+    var promise = this.game.loadQuestions();
+    var that = this;
     promise.then(function(value) {
-      that.view.displayQuestion(that.game.currentQuestion(value))
-      that.view.displayAnswers(that.game.currentAnswers(value))
-      this.addAnswerListeners()
+      that.view.displayQuestion(that.game.currentQuestion(value));
+      that.view.displayAnswers(that.game.currentAnswers(value));
+      that.addAnswerListeners();
     }, function(value) {
       console.log('you suck more');
     });
   },
 
   addAnswerListeners: function() {
-    var answers = this.view.getAnswers()
-    for(i=0;i<answers.length;i++) {
-      answers[i].addEventListener('click', this.checkAnswer.bind(this), false);
-    }
+    $('.quiz-box').on('click', '.answer', this.checkAnswer.bind(this));
   },
-  removeAnswerListeners: function() {
 
+  removeAnswerListeners: function() {
+    $('.quiz-box').unbind('click');
   },
+
   checkAnswer: function() {
-    var correctAnswerId = questions[this.game.questionId].correct_id
-    var correct = 0
-    if(correctAnswerId == event.target.dataset.id) {
+    this.removeAnswerListeners();
+    if(this.game.checkCorrectAnswer() === event.target.dataset.id) {
       event.target.style.background = '#00FF00';
-      this.currentScore = this.currentScore + 1;
+      this.game.currentScore++;
     } else {
       event.target.style.background = '#FF0000';
-      var answers = this.view.getAnswers()
-      answers[correctAnswerId].style.background = '#00FF00';
+      var answers = this.view.getAnswers();
+      answers[this.game.checkCorrectAnswer()].style.background = '#00FF00';
     }
-    this.game.nextQuestionId()
-    setTimeout(this.loadQuestion.bind(this), 3000)
+    this.game.nextQuestionId();
+    setTimeout(this.loadQuestion.bind(this), 3000);
   },
 
   loadQuestion: function() {
-    this.view.displayQuestion(this.game.nextQuestion())
-    this.view.displayAnswers(this.game.displayAnswers())
+    this.view.displayQuestion(this.game.nextQuestion());
+    this.view.displayAnswers(this.game.nextAnswers());
+    this.addAnswerListeners();
   }
-}
+};
