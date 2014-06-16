@@ -110,6 +110,6 @@ View.prototype = {
   },
 
   hideScore: function() {
-    this.getGameOver().css('display', 'none')
+    this.getGameOver().css('display', 'none');
   },
 };

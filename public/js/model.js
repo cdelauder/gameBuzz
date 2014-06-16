@@ -53,9 +53,19 @@ Game.prototype = {
     return this.currentScore;
   },
   resetScore: function() {
-    this.currentScore = 0
+    this.currentScore = 0;
   },
   resetQuestionId: function() {
-    this.questionId = 0
+    this.questionId = 0;
   },
 };
+
+var User {
+  create: function(name, location) {
+    var userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
+    userData.push
+  },
+
+  updateLocation
+};
+
