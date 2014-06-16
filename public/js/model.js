@@ -4,23 +4,27 @@ function Game() {
   this.currentScore = 0;
 }
 Game.prototype = {
-  loadQuestions: function() {
+    loadQuestions: function() {
     var questionData = new Firebase('https://gamebuzz.firebaseio.com/');
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
-      questionData.limit(1).once('value', function(e) {
-        if (e !== undefined) {
-          that.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
-          resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
-        }
-        else
-        {
-          reject( console.log("shit is messssssed up ERROR"));
-        }
-      });
+      questionData.limit(1).once('value', that.checkIt.bind(that, resolve, reject));
     });
+    // this is sent to the controller which will then fire off the promise.then function which will decide what to do when the data comes back from firebase
     return promise;
   },
+
+  checkIt: function(resolve, reject, e) {
+    if (e !== undefined) {
+      this.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
+      resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
+    }
+    else
+    {
+      reject( console.log("shit is messssssed up ERROR"));
+    }
+  },
+
   currentQuestion: function(value) {
     return value[this.questionId].question;
   },
