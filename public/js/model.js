@@ -24,7 +24,7 @@ Game.prototype = {
     return promise;
   },
 
-    currentQuestion: function(value) {
+  currentQuestion: function(value) {
     return value[this.questionId].question;
   },
 
@@ -33,17 +33,23 @@ Game.prototype = {
   },
 
   nextQuestionId: function() {
-    this.questionId = this.questionId + 1;
+    this.questionId++;
   },
+
   nextQuestion: function() {
     return this.questionSet[this.questionId].question;
   },
+
   nextAnswers: function() {
     return this.questionSet[this.questionId].answers;
   },
 
   checkCorrectAnswer: function() {
     return this.questionSet[this.questionId].correct_id;
+  },
+
+  increaseScore: function() {
+    this.currentScore++
   }
 
 

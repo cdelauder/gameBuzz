@@ -42,21 +42,22 @@ Controller.prototype = {
 
   checkAnswer: function() {
     this.removeAnswerListeners();
-    if(this.game.checkCorrectAnswer() === event.target.dataset.id) {
-      event.target.style.background = '#00FF00';
-      this.game.currentScore++;
+    if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
+      this.view.makeCorrectAnswerGreen(event.target);
+      this.game.increaseScore();
     } else {
-      event.target.style.background = '#FF0000';
-      var answers = this.view.getAnswers();
-      answers[this.game.checkCorrectAnswer()].style.background = '#00FF00';
+      this.view.makeIncorrectAnswerRed(event.target);
+      this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+
     }
     this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 3000);
+    setTimeout(this.loadQuestion.bind(this), 1000);
   },
 
   loadQuestion: function() {
     this.view.displayQuestion(this.game.nextQuestion());
     this.view.displayAnswers(this.game.nextAnswers());
     this.addAnswerListeners();
-  }
+  },
+
 };
