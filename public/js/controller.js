@@ -2,14 +2,12 @@ function Controller(view, game) {
   this.view = view
   this.game = game
 }
-
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout()
     var getStart = this.view.getStart()
     getStart.addEventListener('click', this.startGame.bind(this), false);
   },
-
   logout: function() {
     //WE NEED TO ADD THIS FUNCTIONALITY
     //this.currentUser = nil
@@ -17,14 +15,14 @@ Controller.prototype = {
   startGame: function() {
     this.view.hideStartButton();
     this.view.displayQuizBox();
-    this.loadQuestion();
+    this.displayQuestion();
+    this.addAnswerListeners()
   },
-  loadQuestion: function() {
+  displayQuestion: function() {
     var question = this.game.loadQuestion()
     var answers = this.game.loadAnswers()
     this.view.displayQuestion(question)
     this.view.displayAnswers(answers)
-    this.addAnswerListeners()
   },
   addAnswerListeners: function() {
     var answers = this.view.getAnswers()
@@ -33,20 +31,26 @@ Controller.prototype = {
     }
   },
   checkAnswer: function() {
+    var userSelectionId = event.target.dataset.id
     var correctAnswerId = this.game.correctAnswerId()
-    if(correctAnswerId == event.target.dataset.id) {
-      event.target.style.background = '#00FF00';
+    this.displayResponse(userSelectionId, correctAnswerId)
+  },
+  displayResponse: function(userSelectionId, correctAnswerId) {
+    this.view.removeQuestion()
+    this.displayQuestion()
+    var answers = this.view.getAnswers()
+    answers[correctAnswerId].style.background = '#00FF00'
+    if(userSelectionId == correctAnswerId) {
       this.game.currentScore++;
     } else {
-      event.target.style.background = '#FF0000';
-      var answers = this.view.getAnswers()
-      answers[correctAnswerId].style.background = '#00FF00';
+      answers[userSelectionId].style.background = '#FF0000'
     }
-    this.game.incrementQuestionId()
     setTimeout(this.nextQuestion.bind(this), 3000)
   },
   nextQuestion: function() {
+    this.game.incrementQuestionId()
     this.view.removeQuestion()
-    this.loadQuestion()
+    this.displayQuestion()
+    this.addAnswerListeners()
   }
 }

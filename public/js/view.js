@@ -39,7 +39,7 @@ View.prototype = {
     for(i=0;i<answers.length;i++) {
       var newAnswer = document.createElement('div')
       newAnswer.className = 'answer'
-      newAnswer.setAttribute('dataset-id', i)
+      newAnswer.setAttribute('data-id', i)
       newAnswer.innerHTML = answers[i]
       var question = this.getQuestionField()
       question.appendChild(newAnswer)
