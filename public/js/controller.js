@@ -1,7 +1,7 @@
 function Controller(view, game) {
   this.view = view;
   this.game = game;
-  this.authToken = "";
+  this.authToken = null;
 }
 
 Controller.prototype = {
@@ -16,7 +16,7 @@ Controller.prototype = {
   proposeGame: function() {
     var that = this
     User.dbLink().on('child_changed', function(snaphsot) {
-      that.startGame();
+      if (that.authToken) {that.startGame()};
     });
   },
 
@@ -32,6 +32,7 @@ Controller.prototype = {
       if (error) {
         alert(error);
       } else if (user) {
+        this.authToken = user.FirebaseAuthToken
         User.create(user.displayName, 'location');
         that.view.userLoggedIn();
       } else {
