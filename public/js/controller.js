@@ -8,29 +8,45 @@ Controller.prototype = {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
     var getLogin = this.view.getLogin();
+    var getChallenge = this.view.getChallenge();
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
-    getStart.on('click', this.startGame.bind(this));
+    getChallenge.on('click', this.proposeGame.bind(this));
     },
 
   login: function() {
-    User.authenticate();
-    User.login();
-    if (User.current_user()) {
-      console.log('in if')
+    User.authenticate(this.enterGameEnvironment.bind(this));
+    User.login()
+  },
+
+  enterGameEnvironment: function() {
+    console.log('was the callback called?')
+    if (User.current_user) {
+      console.log('if you can see this we have a user')
       this.view.userLoggedIn();
+      var status = this.game.checkForGames();
+      this.showChallengeOrAccepButton(status)
+    }
+  },
+
+  showChallengeOrAccepButton: function(status) {
+    if (status) {
+      this.view.displayChallenge();
     } else {
-      console.log('in else')
-      this.view.userLoggedOut();
+      this.view.displayAccept();
     }
   },
 
   logout: function() {
     User.logout();
+    this.view.userLoggedOut();
+  },
+
+  proposeGame: function() {
+    this.game.proposeGame()
   },
 
   startGame: function() {
-    debugger
     this.removeAnswerListeners();
     this.view.hideStartButton();
     this.view.hideScore();
@@ -129,3 +145,23 @@ Controller.prototype = {
   },
 
 };
+
+// var promise = {
+//   waitForMe: function(callback, args) {
+//     var waiting = new RSVP.Promise(function(resolve, reject) {
+//     debugger
+//       var result = callback(args);
+//       if (callback() !== undefined) {
+//         resolve(result);
+//       } else {
+//         reject(console.log('there was an error in the promise module'));
+//       }
+//     });
+
+//     waiting.then(function(value) {
+//       return value;
+//     }), (function(value) {
+//       console.log('there was an error in the then function of the promise module');
+//     })
+//   }
+// }

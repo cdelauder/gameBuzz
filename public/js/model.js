@@ -58,18 +58,39 @@ Game.prototype = {
   resetQuestionId: function() {
     this.questionId = 0;
   },
+
+  checkForGames: function() {
+    var that = this
+    firebase.makeGameDbLink().once('value', function(snapshot) {
+      return that.gamesAvailable(snapshot.val())
+    })
+  },
+
+  gamesAvailable: function(games) {
+    if (games === null) {
+      return false
+    } else {
+      return true
+    }
+  },
+
+  proposeGame: function() {
+    firebase.getGameDbLink.push(User.uid())
+  },
+
 };
 
 
 //////////User Module////////////
 var User = {
-  authenticate: function() {
+  authenticate: function(callback) {
     var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
     var that = this;
     this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
       if (error) {
         alert(error);
       } else if (user) {
+        callback.call(this)
         return true;
       } else {
         return false;
@@ -88,12 +109,20 @@ var User = {
       }
     });
     promise.then(function(value) {
-      that.username = value.displayName;
-      that.authToken = value.firebaseAuthToken;
-      that.create(that.username, 'location');
+      User.setUser(value);
     }, function(value) {
       console.log('I can;t make users');
     });
+  },
+
+  setUser: function(value) {
+    this.username = value.displayName;
+    this.userId = value.id
+    this.authToken = value.firebaseAuthToken;
+    debugger
+    var link = firebase.makeUserLink()
+    this.user = link.push(this.username, 'location');
+    console.log(this.user)
   },
 
   logout: function() {
@@ -119,6 +148,10 @@ var User = {
     this.user.remove();
   },
 
+  uid: function() {
+    return this.userId
+  },
+
   current_user: function() {
     return this.authToken;
   }
@@ -128,7 +161,7 @@ var User = {
 
 var firebase = {
   makeLink: function() {
-    return this.dbLink = new Firebase('https://gamebuzz.firebaseio.com')    
+    return this.dbLink = new Firebase('https://gamebuzz.firebaseio.com')
   },
 
   GetDbLink: function() {
