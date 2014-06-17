@@ -1,6 +1,6 @@
-  var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
-  var questions
-  var questionId = 1
+var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
+var questions
+var questionId = 1
 
 $(document).ready(function() {
   myDataRef.limit(1).once('value', function(e) {
