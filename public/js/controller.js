@@ -25,7 +25,7 @@ Controller.prototype = {
       if (error) {
         alert(error);
       } else if (user) {
-        that.locationPromise(user)
+        User.create(user.displayName, 'location')
         that.view.userLoggedIn();
       } else {
         that.view.userLoggedOut();
@@ -59,6 +59,7 @@ Controller.prototype = {
   },
 
   logout: function() {
+    User.destroy();
     this.auth.logout();
   },
 

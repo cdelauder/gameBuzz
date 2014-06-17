@@ -10,6 +10,10 @@ Game.prototype = {
     var promise = new RSVP.Promise(function(resolve, reject) {
       questionData.limit(1).once('value', that.checkIt.bind(that, resolve, reject));
     });
+
+    // var promise = new RSVP.Promise(function(resolve, reject) {
+    //   questionData.limit(1).once('value', that.checkIt.bind(this, resolve, reject));
+    // }.bind(this));
     // this is sent to the controller which will then fire off the promise.then function which will decide what to do when the data comes back from firebase
     return promise;
   },
@@ -63,11 +67,15 @@ Game.prototype = {
 var User = {
   create: function(name, location) {
     var userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
-    userData.push({name: name, location: location, available: true});
+    this.user = userData.push({name: name, location: location, available: true});
   },
 
   updateLocation: function(location) {
 
+  },
+
+  destroy: function() {
+    this.user.remove();
   },
 };
 
