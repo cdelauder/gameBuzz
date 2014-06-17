@@ -66,8 +66,12 @@ Game.prototype = {
 
 var User = {
   create: function(name, location) {
-    var userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
-    this.user = userData.push({name: name, location: location, available: true});
+    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
+    this.user = this.userData.push({name: name, location: location, available: true});
+  },
+
+  dbLink: function() {
+    return this.userData;
   },
 
   updateLocation: function(location) {

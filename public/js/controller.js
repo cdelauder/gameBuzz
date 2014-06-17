@@ -8,9 +8,13 @@ Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
-    getStart.on('click', this.startGame.bind(this));
+    getStart.on('click', this.proposeGame.bind(this));
     getLogout.on('click', this.logout.bind(this));
     this.view.getLogin().on('click', this.login.bind(this));
+  },
+
+  proposeGame: function() {
+    User.dbLink.on('childAdded', this.startGame.bind(this));
   },
 
   login: function() {
@@ -37,7 +41,6 @@ Controller.prototype = {
     console.log("locationPromise")
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
-      debugger
       Location.getLocation('value', that.waitForLocation.bind(that, resolve, reject));
     });
     promise.then(function(value) {
@@ -49,7 +52,6 @@ Controller.prototype = {
   },
 
   waitForLocation: function(resolve, reject, e) {
-    debugger
     if (e !== undefined) {
       console.log("waitForLocation")
       resolve(e);
