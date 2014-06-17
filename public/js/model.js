@@ -16,8 +16,8 @@ Game.prototype = {
 
   checkIt: function(resolve, reject, e) {
     if (e !== undefined) {
-      this.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
-      resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
+      this.questionSet = e.val()["-JPbgRPRsqDJNz37rMVs"].questions;
+      resolve( e.val()["-JPbgRPRsqDJNz37rMVs"].questions );
     }
     else
     {

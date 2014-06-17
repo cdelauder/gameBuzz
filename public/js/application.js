@@ -5,7 +5,7 @@
 $(document).ready(function() {
   myDataRef.limit(1).once('value', function(e) {
     questions = e.val()
-    questions = questions["-JPO-bDsvjRScHW9NP33"].questions
+    questions = questions["-JPbgRPRsqDJNz37rMVs"].questions
   });
 
   var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
