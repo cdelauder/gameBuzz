@@ -20,16 +20,16 @@ Controller.prototype = {
   },
 
   enterGameEnvironment: function() {
-    console.log('was the callback called?')
     if (User.current_user) {
-      console.log('if you can see this we have a user')
       this.view.userLoggedIn();
-      var status = this.game.checkForGames();
-      this.showChallengeOrAccepButton(status)
+      this.game.checkForGames(this.showChallengeOrAccepButton.bind(this));
+      //need promise here
+
     }
   },
 
   showChallengeOrAccepButton: function(status) {
+    debugger
     if (status) {
       this.view.displayAccept();
     } else {

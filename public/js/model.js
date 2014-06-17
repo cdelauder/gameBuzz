@@ -59,27 +59,26 @@ Game.prototype = {
     this.questionId = 0;
   },
 
-  checkForGames: function() {
-    var that = this
-    debugger
-    firebase.getGameDbLink().once('value', function(snapshot) {
-      var gamesAvailable = that.gamesAvailable(snapshot.val()
-        )
-      return gamesAvailable
-    })
+  checkForGames: function(callback) {
+    var that = this;
+    var link = firebase.makeGameDbLink();
+    link.once('value', function(snapshot) {
+      var gamesAvailable = that.gamesAvailable( snapshot.val() );
+      callback.call(this, gamesAvailable)
+    });
   },
 
   gamesAvailable: function(games) {
     if (games === null) {
-      return false
+      return false;
     } else {
-      return true
+      return true;
     }
   },
 
   proposeGame: function() {
-    firebase.makeGameDbLink().push({user_id: User.uid()})
-    return 'waiting for opponent'
+    firebase.makeGameDbLink().push({user_id: User.uid()});
+    return 'waiting for opponent';
   },
 
 };
