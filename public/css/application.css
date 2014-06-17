@@ -10,14 +10,43 @@ html {
   background: #051359;
 }
 
-header {
+body {
+  color: #fff;
+}
+
+
+header.logo {
   margin: 10px;
+}
+
+.logged-in-header {
+  height: 80px;
+  background: #1A31A6;
+}
+
+.float-left {
+  float: left;
+}
+
+.current-user-info,
+.timer,
+.competitor-info {
+  width: 33%;
+  margin-left: 1px;
+}
+
+.timer {
+  background-image: url('/images/beerTimer.png');
+  background-repeat: no-repeat;
+  text-align: center;
+  color: #fff;
+  font-size: .85em;
+  height: 200px;
 }
 
 header img {
   display: block;
   margin: 0 auto;
-
 }
 
 img {
@@ -72,13 +101,6 @@ img {
   border: 3px solid #fff;
 }
 
-.timer {
-  width: 50%;
-  text-align: center;
-  color: #fff;
-  margin: 20px auto;
-  font-size: 1.5em;
-}
 
 .game-over {
   background: #999;
