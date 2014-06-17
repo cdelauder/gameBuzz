@@ -12,24 +12,33 @@ Controller.prototype = {
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
     getChallenge.on('click', this.proposeGame.bind(this));
+    this.view.getAccept().on('click', this.prepForStartGame.bind(this));
+    firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this))
     },
+
+  amIPlaying: function(e) {
+    if (e.val().player_1 === User.uid || e.val().player_2 === User.uid) {
+      this.startGame()
+    }
+  },
+
+  getActiveGames: function() {
+    firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this))
+  },
 
   login: function() {
     User.authenticate(this.enterGameEnvironment.bind(this));
-    User.login()
+    User.login();
   },
 
   enterGameEnvironment: function() {
     if (User.current_user) {
       this.view.userLoggedIn();
       this.game.checkForGames(this.showChallengeOrAccepButton.bind(this));
-      //need promise here
-
     }
   },
 
   showChallengeOrAccepButton: function(status) {
-    debugger
     if (status) {
       this.view.displayAccept();
     } else {
@@ -47,6 +56,10 @@ Controller.prototype = {
     var message = this.game.proposeGame();
     this.view.hideChallenge();
     this.view.displayMessage(message)
+  },
+
+  prepForStartGame: function() {
+    this.game.make2PlayerGame()
   },
 
   startGame: function() {

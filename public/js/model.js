@@ -63,7 +63,7 @@ Game.prototype = {
     var that = this;
     var link = firebase.makeGameDbLink();
     link.once('value', function(snapshot) {
-      var gamesAvailable = that.gamesAvailable( snapshot.val() );
+      var gamesAvailable = that.gamesAvailable( snapshot.val());
       callback.call(this, gamesAvailable)
     });
   },
@@ -79,6 +79,16 @@ Game.prototype = {
   proposeGame: function() {
     firebase.makeGameDbLink().push({user_id: User.uid()});
     return 'waiting for opponent';
+  },
+
+  make2PlayerGame: function() {
+    var proposedGame = firebase.getGameDbLink().startAt().limit(1);
+    var opponent = proposedGame.once('value', function(snapshot) {
+      snapshot.val().user_id
+    })
+    debugger
+    firebase.getActiveGameDbLink().push({player_1: opponent, player_2: User.uid});
+    firebase.getGameDbLink().remove(proposedGame)
   },
 
 };
@@ -187,6 +197,14 @@ var firebase = {
 
   makeGameDbLink: function() {
     return this.gameDbLink = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/games')
+  },
+
+  makeActiveGameDbLink: function() {
+    return this.activeGameDbLink = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/active_games')
+  },
+
+  getActiveGameDbLink: function() {
+    return this.activeGameDbLink
   },
 
   getGameDbLink: function() {
