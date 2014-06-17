@@ -14,7 +14,10 @@ Controller.prototype = {
   },
 
   proposeGame: function() {
-    User.dbLink.on('childAdded', this.startGame.bind(this));
+    var that = this
+    User.dbLink().on('child_changed', function(snaphsot) {
+      that.startGame();
+    });
   },
 
   login: function() {
@@ -29,7 +32,7 @@ Controller.prototype = {
       if (error) {
         alert(error);
       } else if (user) {
-        User.create(user.displayName, 'location')
+        User.create(user.displayName, 'location');
         that.view.userLoggedIn();
       } else {
         that.view.userLoggedOut();

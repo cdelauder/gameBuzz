@@ -71,7 +71,7 @@ var User = {
   },
 
   dbLink: function() {
-    return this.userData;
+    return new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_')
   },
 
   updateLocation: function(location) {
