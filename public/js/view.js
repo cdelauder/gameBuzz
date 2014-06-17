@@ -1,12 +1,12 @@
-function View(opts) {
-  this.startButton = opts['start'];
-  this.logout = opts['logout'];
-  this.quizBox = opts['quizBox'];
-  this.questionField = opts['questionField'];
-  this.answers = opts['answer'];
-  this.gameOver = opts['gameOver'];
-  this.login = opts['login'];
-  this.timer = opts['timer'];
+function View() {
+  this.startButton = '.start';
+  this.logout = '.logout';
+  this.quizBox = '.quiz-box';
+  this.questionField = '.question';
+  this.answers = '.answer';
+  this.gameOver = '.game-over';
+  this.login = '.login';
+  this.timer = '.timer';
 }
 
 View.prototype = {

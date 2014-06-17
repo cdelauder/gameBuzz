@@ -84,7 +84,7 @@ var User = {
       if (loginResponse !== undefined) {
         resolve(loginResponse);
       } else {
-      reject(console.log('user authentication failed'));
+        reject(console.log('user authentication failed'));
       }
     });
     promise.then(function(value) {

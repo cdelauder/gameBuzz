@@ -7,20 +7,22 @@ Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
-
-    getStart.on('click', this.startGame.bind(this));
-
+    var getLogin = this.view.getLogin();
+    getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
-    this.view.getLogin().on('click', this.login.bind(this));
-  },
+    getStart.on('click', this.startGame.bind(this));
+    },
 
   login: function() {
-    if (User.authenticate()) {
+    User.authenticate();
+    User.login();
+    if (User.current_user()) {
+      console.log('in if')
       this.view.userLoggedIn();
     } else {
+      console.log('in else')
       this.view.userLoggedOut();
     }
-    User.login();
   },
 
   logout: function() {
@@ -28,6 +30,7 @@ Controller.prototype = {
   },
 
   startGame: function() {
+    debugger
     this.removeAnswerListeners();
     this.view.hideStartButton();
     this.view.hideScore();
