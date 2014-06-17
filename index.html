@@ -1,18 +1,70 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <script src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js'></script>
+  <!--
+    normalize.css removes cross-browser differences in defaults, e.g.,
+    differences in how form elements appear between Firefox and IE
+    See: http://necolas.github.com/normalize.css/
+  -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <!--
+    application.css is where you put your styles
+  -->
+  <link rel="stylesheet" href="/css/application.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+
+  <script type='text/javascript'
+          src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'>
+  </script>
+
+  <script src="/js/fb.js"></script>
+  <script src="/js/rsvp.js"></script>
+  <script src="/js/view.js"></script>
+  <script src="/js/model.js"></script>
+  <script src="/js/controller.js"></script>
+  <script src="/js/init.js"></script>
+  <script src="/js/location.js"></script>
+  <title></title>
 </head>
 <body>
-  <script>
-    var myDataRef = new Firebase('https://gb0jcnmd3fr.firebaseio-demo.com/');
-    var questions
-    $(document).ready(function() {
-      myDataRef.limit(1).once('value', function(e) {
-        questions = e.val()
-        questions = questions["-JPO-bDsvjRScHW9NP33"].questions
-      })
-    });
-  </script>
+  <header class="logo">
+    <img src="images/GameBuzzWordLogo.png">
+  </header>
+
+  <div class="container">
+
+    <div class="btn login">
+      Login
+    </div>
+
+    <div class="btn logout">
+      Logout
+    </div>
+
+    <div class="btn start">
+      Start Game
+    </div>
+
+    <div class="timer">
+    </div>
+
+    <div class="quiz-box">
+      <div class="question">
+      </div>
+      <div class="answer" data-id='0'>
+      </div>
+      <div class="answer" data-id='1'>
+      </div>
+      <div class="answer" data-id='2'>
+      </div>
+      <div class="answer" data-id='3'>
+      </div>
+    </div>
+    <div class="game-over">
+    </div>
+  </div>
 </body>
 </html>
