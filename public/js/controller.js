@@ -31,9 +31,9 @@ Controller.prototype = {
 
   showChallengeOrAccepButton: function(status) {
     if (status) {
-      this.view.displayChallenge();
-    } else {
       this.view.displayAccept();
+    } else {
+      this.view.displayChallenge();
     }
   },
 
@@ -43,7 +43,10 @@ Controller.prototype = {
   },
 
   proposeGame: function() {
-    this.game.proposeGame()
+    firebase.makeGameDbLink()
+    var message = this.game.proposeGame();
+    this.view.hideChallenge();
+    this.view.displayMessage(message)
   },
 
   startGame: function() {

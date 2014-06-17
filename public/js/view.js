@@ -160,4 +160,12 @@ View.prototype = {
     this.getGameOver().css('display', 'none')
   },
 
+  displayMessage: function(message) {
+    var container = document.querySelector('.container')
+    var newMessage = document.createElement('div')
+    newMessage.innerHTML = message
+    newMessage.className = 'message'
+    container.appendChild(newMessage)
+  },
+
 };

@@ -61,8 +61,11 @@ Game.prototype = {
 
   checkForGames: function() {
     var that = this
-    firebase.makeGameDbLink().once('value', function(snapshot) {
-      return that.gamesAvailable(snapshot.val())
+    debugger
+    firebase.getGameDbLink().once('value', function(snapshot) {
+      var gamesAvailable = that.gamesAvailable(snapshot.val()
+        )
+      return gamesAvailable
     })
   },
 
@@ -75,7 +78,8 @@ Game.prototype = {
   },
 
   proposeGame: function() {
-    firebase.getGameDbLink.push(User.uid())
+    firebase.makeGameDbLink().push({user_id: User.uid()})
+    return 'waiting for opponent'
   },
 
 };
@@ -119,9 +123,7 @@ var User = {
     this.username = value.displayName;
     this.userId = value.id
     this.authToken = value.firebaseAuthToken;
-    debugger
-    var link = firebase.makeUserLink()
-    this.user = link.push(this.username, 'location');
+    this.user = this.create(this.username, 'location');
     console.log(this.user)
   },
 
