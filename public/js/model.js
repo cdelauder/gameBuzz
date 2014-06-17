@@ -16,8 +16,8 @@ Game.prototype = {
 
   checkIt: function(resolve, reject, e) {
     if (e !== undefined) {
-      this.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
-      resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
+      this.questionSet = e.val()["-JPbgRPRsqDJNz37rMVs"].questions;
+      resolve( e.val()["-JPbgRPRsqDJNz37rMVs"].questions );
     }
     else
     {
@@ -53,9 +53,73 @@ Game.prototype = {
     return this.currentScore;
   },
   resetScore: function() {
-    this.currentScore = 0
+    this.currentScore = 0;
   },
   resetQuestionId: function() {
-    this.questionId = 0
+    this.questionId = 0;
   },
+};
+
+
+//////////User Module////////////
+var User = {
+  authenticate: function() {
+    var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
+    var that = this;
+    this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
+      if (error) {
+        alert(error);
+      } else if (user) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  },
+
+  login: function() {
+    var that = this;
+    var promise = new RSVP.Promise(function(resolve, reject) {
+      var loginResponse = that.auth.login('facebook');
+      if (loginResponse !== undefined) {
+        resolve(loginResponse);
+      } else {
+      reject(console.log('user authentication failed'));
+      }
+    });
+    promise.then(function(value) {
+      that.username = value.displayName;
+      that.authToken = value.firebaseAuthToken;
+      that.create(that.username, 'location');
+    }, function(value) {
+      console.log('I can;t make users');
+    });
+  },
+
+  logout: function() {
+    this.authToken = null;
+    User.destroy();
+    this.auth.logout();
+  },
+
+  create: function(name, location) {
+    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users');
+    this.user = this.userData.push({name: name, location: location, available: true});
+  },
+
+  dbLink: function() {
+    return new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs');
+  },
+
+  updateLocation: function(location) {
+
+  },
+
+  destroy: function() {
+    this.user.remove();
+  },
+
+  current_user: function() {
+    return this.authToken;
+  }
 };

@@ -1,39 +1,30 @@
 function Controller(view, game) {
   this.view = view;
   this.game = game;
-  this.authToken = "";
 }
 
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getStart = this.view.getStart();
+
     getStart.on('click', this.startGame.bind(this));
+
     getLogout.on('click', this.logout.bind(this));
     this.view.getLogin().on('click', this.login.bind(this));
   },
 
   login: function() {
-    this.makeAuthObject();
-    this.auth.login('facebook');
-  },
-
-  makeAuthObject: function() {
-    var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
-    var that = this;
-    this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
-      if (error) {
-        alert(error);
-      } else if (user) {
-        that.view.userLoggedIn();
-      } else {
-        that.view.userLoggedOut();
-      }
-    });
+    if (User.authenticate()) {
+      this.view.userLoggedIn();
+    } else {
+      this.view.userLoggedOut();
+    }
+    User.login();
   },
 
   logout: function() {
-    this.auth.logout();
+    User.logout();
   },
 
   startGame: function() {
@@ -48,25 +39,25 @@ Controller.prototype = {
 
   startQuestionTimer: function() {
     this.view.setCountDownTime(20);
-    this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000)
+    this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
   },
 
   countDownTimer: function() {
-    var time = this.view.getCountDownTime()
-    this.deincrementTimer(time)
+    var time = this.view.getCountDownTime();
+    this.deincrementTimer(time);
   },
 
   deincrementTimer: function(time) {
-    time --
+    time --;
     if (time < 0) {
       this.timeRanOut();
     } else {
-      this.view.setCountDownTime(time)
+      this.view.setCountDownTime(time);
     }
   },
 
   stopQuestionTimer: function(time) {
-    clearInterval(this.currentTimer)
+    clearInterval(this.currentTimer);
   },
 
   loadFirstQuestion: function() {

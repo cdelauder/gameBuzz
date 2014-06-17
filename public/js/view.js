@@ -47,7 +47,7 @@ View.prototype = {
   },
 
   setCountDownTime: function(countDownTime) {
-    return this.getTimer().text(countDownTime)
+    return this.getTimer().text(countDownTime);
   },
 
   userLoggedIn: function() {
