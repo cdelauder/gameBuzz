@@ -65,6 +65,7 @@ Controller.prototype = {
   },
 
   logout: function() {
+    this.authToken = null
     User.destroy();
     this.auth.logout();
   },
