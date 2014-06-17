@@ -20,8 +20,8 @@ Game.prototype = {
 
   checkIt: function(resolve, reject, e) {
     if (e !== undefined) {
-      this.questionSet = e.val()["-JP_sSrn17fov4_11ey_"].questions;
-      resolve( e.val()["-JP_sSrn17fov4_11ey_"].questions );
+      this.questionSet = e.val()["-JPbgRPRsqDJNz37rMVs"].questions;
+      resolve( e.val()["-JPbgRPRsqDJNz37rMVs"].questions );
     }
     else
     {
@@ -66,12 +66,12 @@ Game.prototype = {
 
 var User = {
   create: function(name, location) {
-    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_/users');
+    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users');
     this.user = this.userData.push({name: name, location: location, available: true});
   },
 
   dbLink: function() {
-    return new Firebase('https://gamebuzz.firebaseio.com/-JP_sSrn17fov4_11ey_')
+    return new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs')
   },
 
   updateLocation: function(location) {
