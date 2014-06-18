@@ -6,34 +6,37 @@ function Controller(view, game) {
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
-    var getStart = this.view.getStart();
     var getLogin = this.view.getLogin();
     var getChallenge = this.view.getChallenge();
+    var getAccept = this.view.getAccept();
+
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
     getChallenge.on('click', this.proposeGame.bind(this));
-    this.view.getAccept().on('click', this.prepForStartGame.bind(this));
-    firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this))
+    getAccept.on('click', this.prepForStartGame.bind(this));
+
+    firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
+
     },
 
   amIPlaying: function(e) {
-    if (User.current_user()) {
-      var gameObjects = e.val()
+    if (User.current_user() && User.available) {
+      var gameObjects = e.val();
       for (key in gameObjects) {
-        var object = gameObjects[key]
-        this.checkPlayerId(object)
+        var object = gameObjects[key];
+        this.checkPlayerId(object);
       }
     }
   },
 
   checkPlayerId: function(game) {
     if (game.player_1 === User.uid() || game.player_2 === User.uid()) {
-      this.startGame()
+      this.startGame();
     }
   },
 
   getActiveGames: function() {
-    firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this))
+    firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this));
   },
 
   login: function() {
@@ -62,17 +65,18 @@ Controller.prototype = {
   },
 
   proposeGame: function() {
-    firebase.makeGameDbLink()
+    firebase.makeGameDbLink();
     var message = this.game.proposeGame();
     this.view.hideChallenge();
-    this.view.displayMessage(message)
+    this.view.displayMessage(message);
   },
 
   prepForStartGame: function() {
-    this.game.make2PlayerGame()
+    this.game.make2PlayerGame();
   },
 
   startGame: function() {
+    User.setAvailability(false);
     this.removeAnswerListeners();
     this.view.hideStartButton();
     this.view.hideScore();

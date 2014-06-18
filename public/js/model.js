@@ -92,13 +92,13 @@ Game.prototype = {
     var opponentId
 
     var opponent = proposedGame.once('value', function(snapshot) {
-      var hashObject = snapshot.val()
+      var hashObject = snapshot.val();
       for (key in hashObject) {
-        var object = hashObject[key]
-        opponentId = object.user_id
+        var object = hashObject[key];
+        opponentId = object.user_id;
         this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
       }
-    })
+    });
     // proposedGame.remove()
   },
 
@@ -114,7 +114,7 @@ var User = {
       if (error) {
         alert(error);
       } else if (user) {
-        callback.call(this)
+        callback.call(this);
         return true;
       } else {
         return false;
@@ -134,21 +134,29 @@ var User = {
     });
     promise.then(function(value) {
       User.setUser(value);
+      User.makeDisconnect()
     }, function(value) {
       console.log('I can;t make users');
     });
   },
 
+  makeDisconnect: function() {
+    firebase.makeConnectedRef.on('value', function() {
+      this.user.onDisconnect().remove();
+    });
+  },
+
   setUser: function(value) {
+    this.available = true;
     this.username = value.displayName;
-    this.userId = value.id
+    this.userId = value.id;
     this.authToken = value.firebaseAuthToken;
-    this.user = this.create(this.username, 'location');
+    this.create(this.username, 'location');
   },
 
   logout: function() {
     this.authToken = null;
-    User.destroy();
+    this.destroy();
     this.auth.logout();
   },
 
@@ -175,7 +183,15 @@ var User = {
 
   current_user: function() {
     return this.authToken;
-  }
+  },
+
+  setAvailability: function(status) {
+    this.available = true
+  },
+
+  available: function() {
+    return this.available
+  },
 };
 
 //////////////firebase module
@@ -219,6 +235,10 @@ var firebase = {
 
   getGameDbLink: function() {
     return this.gameDbLink
+  },
+
+  makeConnectedRef: function() {
+    return this.connectedRef = new Firebase('https://gamebuzz.firebaseio.com//.info/connected')
   },
 
   authenticate: function() {
