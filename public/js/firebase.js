@@ -3,20 +3,6 @@ function FirebaseDB() {
 }
 
 FirebaseDB.prototype = {
-  // var userTesting = 0
-  // this.userReference.on('value', function(snapshot) {
-  //   userTesting = snapshot.val()
-  // })
-  // for (var key in userTesting) {
-  //   if (userTesting.hasOwnProperty(key)) {
-  //     console.log(userTesting[key]);
-  //   }
-  // }
-  // for (var key in userTesting) {
-  //   if (userTesting.hasOwnProperty(key)) {
-  //     console.log(userTesting[key].available);
-  //   }
-  // },
 
   getAvailableUsers: function() {
     var users
@@ -33,23 +19,33 @@ FirebaseDB.prototype = {
     }
     return userCount
   },
-
-  setUserAvailabilityToFalse: function(newUserId) {
-    var users
-    var currentUser
-    this.userReference.on('value', function(snapshot) {
-      users = snapshot.val()
-    });
-    for (var user in users) {
-      if (users.hasOwnProperty(user)) {
-        if (users[user].userId === newUserId) {
-          currentUser = users[user]
-          currentUser.set({available: false})    
-        }
-      }
-    }
+  setUserAvailabilityToTrue: function(userId) {
+    newReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users/' + userId)
+    newReference.update({available: true})
+  },
+  setUserAvailabilityToFalse: function(userId) {
+    newReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users/' + userId)
+    newReference.update({available: false})
   },
 
+
+
+
+  // setUserAvailabilityToFalse: function(newUserId) {
+  //   var users
+  //   var currentUser
+  //   this.userReference.on('value', function(snapshot) {
+  //     users = snapshot.val()
+  //   });
+  //   for (var user in users) {
+  //     if (users.hasOwnProperty(user)) {
+  //       if (users[user].userId === newUserId) {
+  //         currentUser = users[user]
+  //         currentUser.set({available: false})    
+  //       }
+  //     }
+  //   }
+  // },
 
 
 

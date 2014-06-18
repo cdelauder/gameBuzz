@@ -6,13 +6,11 @@ function User() {
   this.gameId = 1
   this.firebaseToken = ''
 }
-
 User.prototype = {
   authenticate: function() {
     var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
     var that = this;
     this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
-      
       if (error) {
         alert(error);
       } else if (user) {
@@ -22,9 +20,6 @@ User.prototype = {
       }
     });
   },
-
-
-
   login: function(callback) {
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
@@ -35,7 +30,6 @@ User.prototype = {
         reject(console.log('user authentication failed'));
       }
     });
-
     promise.then(function(value) {
       that.setUser(value);
       callback.call(this);
@@ -43,7 +37,6 @@ User.prototype = {
       console.log('I can;t make users');
     });
   },
-
   setUser: function(value) {
     this.available = false;
     this.username = value.displayName;
@@ -51,7 +44,6 @@ User.prototype = {
     this.authToken = value.firebaseAuthToken;
     this.create(this.username, 'location', this.available, this.userId);
   },
-
   logout: function() {
     this.authToken = null;
     this.destroy();
@@ -60,9 +52,9 @@ User.prototype = {
 
   create: function(name, location, available, userId) {
     this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users/' + userId);
-    this.user = this.userData.set({name: name, location: location, available: available});
-    // this.userData.set({available: true})
-    this.user.onDisconnect().remove();
+    this.userData.push({})
+    this.userData.set({name: name, location: location, available: available});
+    this.userData.onDisconnect().remove();
   },
 
   dbLink: function() {
@@ -74,7 +66,7 @@ User.prototype = {
   },
 
   destroy: function() {
-    this.user.remove();
+    this.userData.remove();
   },
 
   uid: function() {

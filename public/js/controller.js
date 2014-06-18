@@ -4,34 +4,53 @@ function Controller(view, game, user, firebase) {
   this.user = user;
   this.firebase = firebase;
 }
-
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getLogin = this.view.getLogin();
     var getStart = this.view.getStart();
-
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
     getStart.on('click', this.readyForGame.bind(this));
     this.firebase.getAvailableUsers();
-
     // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
   },
-
-
-
-
-  amIPlaying: function(e) {
-    if (this.user.current_user() && this.user.available) {
-      var gameObjects = e.val();
-      for (key in gameObjects) {
-        var object = gameObjects[key];
-        this.checkPlayerId(object);
-      }
-    }
+  login: function() {
+    this.user.authenticate();
+    this.user.login(this.userLoggedIn.bind(this));
   },
+  userLoggedIn: function() {
+    this.view.userLoggedIn();
+    this.view.displayStart()
+  },
+  logout: function() {
+    this.user.logout();
+    this.view.userLoggedOut();
+  },
+  setUserAvailabilityToTrue: function() {
+    this.user.available = true
+    this.firebase.setUserAvailabilityToTrue(this.user.userId)
 
+  },
+  setUserAvailabilityToFalse: function() {
+    this.user.available = false
+    this.firebase.setUserAvailabilityToFalse(this.user.userId)
+  },
+  readyForGame: function() {
+    this.setUserAvailabilityToTrue()
+    console.log(this.firebase.getAvailableUsers())
+    // var numberOfUsers = this.firebase.getAvailableUsers()
+    // if(numberOfUsers)
+  },
+  // amIPlaying: function(e) {
+  //   if (this.user.current_user() && this.user.available) {
+  //     var gameObjects = e.val();
+  //     for (key in gameObjects) {
+  //       var object = gameObjects[key];
+  //       this.checkPlayerId(object);
+  //     }
+  //   }
+  // },
 //   checkPlayerId: function(game) {
 //     if (game.player_1 === this.user.uid() || game.player_2 === this.user.uid()) {
 //       this.game.removeProposedGame();
@@ -42,21 +61,6 @@ Controller.prototype = {
 //   getActiveGames: function() {
 //     firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this));
 //   },
-
-  login: function() {
-    this.user.authenticate();
-    this.user.login(this.userLoggedIn.bind(this));
-  },
-
-  userLoggedIn: function() {
-    this.view.userLoggedIn();
-    this.view.displayStart()
-  },
-
-  logout: function() {
-    this.user.logout();
-    this.view.userLoggedOut();
-  },
 
 //   proposeGame: function() {
 //     firebase.makeGameDbLink();
@@ -69,10 +73,6 @@ Controller.prototype = {
 //     this.game.make2PlayerGame();
 //   },
 
-  readyForGame: function() {
-    // var numberOfUsers = this.firebase.getAvailableUsers()
-    // if(numberOfUsers)
-  },
 
 //   startGame: function() {
 //     this.user.setAvailability(false);
