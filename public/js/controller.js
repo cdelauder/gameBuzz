@@ -17,7 +17,17 @@ Controller.prototype = {
     },
 
   amIPlaying: function(e) {
-    if (e.val().player_1 === User.uid || e.val().player_2 === User.uid) {
+    if (User.current_user()) {
+      var gameObjects = e.val()
+      for (key in gameObjects) {
+        var object = gameObjects[key]
+        this.checkPlayerId(object)
+      }
+    }
+  },
+
+  checkPlayerId: function(game) {
+    if (game.player_1 === User.uid() || game.player_2 === User.uid()) {
       this.startGame()
     }
   },

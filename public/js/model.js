@@ -82,13 +82,24 @@ Game.prototype = {
   },
 
   make2PlayerGame: function() {
+    firebase.makeGameDbLink()
     var proposedGame = firebase.getGameDbLink().startAt().limit(1);
+    // var opponent = proposedGame.once('', function(snapshot) {
+    //     id = snapshot.user_id();
+    //     console.log(id);
+    //     return id;
+      // })
+    var opponentId
+
     var opponent = proposedGame.once('value', function(snapshot) {
-      snapshot.val().user_id
+      var hashObject = snapshot.val()
+      for (key in hashObject) {
+        var object = hashObject[key]
+        opponentId = object.user_id
+        this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
+      }
     })
-    debugger
-    firebase.getActiveGameDbLink().push({player_1: opponent, player_2: User.uid});
-    firebase.getGameDbLink().remove(proposedGame)
+    // proposedGame.remove()
   },
 
 };
@@ -133,7 +144,6 @@ var User = {
     this.userId = value.id
     this.authToken = value.firebaseAuthToken;
     this.user = this.create(this.username, 'location');
-    console.log(this.user)
   },
 
   logout: function() {
