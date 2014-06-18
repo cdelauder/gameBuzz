@@ -147,13 +147,17 @@ var User = {
 
   setUser: function(value) {
     this.available = true;
+    this.location = {}
     this.username = value.displayName;
     this.userId = value.id;
     this.authToken = value.firebaseAuthToken;
     this.create(this.username);
-
-    // placer.getLocation()
-    // var userLocation = placer.userLocation
+    var that = this
+    // send a callback to get location that will be called once a success location is found.
+    placer.getLocation(function(myLocation){
+      that.location = myLocation
+      debugger
+    })
   },
 
   logout: function() {

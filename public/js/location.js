@@ -1,28 +1,26 @@
 var placer = {
   userLocation: {},
 
-  getLocation: function() {
-
-    // navigator.geolocation ? navigator.geolocation.getCurrentPosition(this.showPosition) : console.log('This browser does not support geoLocation.')
-    if (navigator.geolocation) {
-      var response = navigator.geolocation.getCurrentPosition(this.showPosition.bind(this),this.error,{timeout: 5000})
-      // User.updateLocation({location: response})
-
-      return 'working, please wait'
+  getLocation: function(callback) {
+     //the callback is a function to trigger once geolocation returns success
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position){callback(position)}, // success
+        this.errorPosition, // error
+        {timeout: 5000} // options
+      )
     } else {
-      return 'failed'
+      console.warn("geolocation not supported")
     }
-    return response
-  },
-  error: function(){
-    console.log("error in geoLocation")
   },
 
-  showPosition: function(position) {
-    console.log({latitude: position.coords.latitude, longitude: position.coords.longitude})
+  errorPosition: function(err){
+    console.log(err)
+  },
+// we don't need this - using callback
+
+  // showPosition: function(position) {
     // this.userLocation = {latitude: position.coords.latitude, longitude: position.coords.longitude}
-
-  },
+  // },
 
   getDistanceInMiles: function(latitude1,longitude1,latitude2,longitude2) {
     var earthRadius = 3963; // Radius of the earth in miles
@@ -40,5 +38,5 @@ var placer = {
 
   degreesToRadians: function(degrees) {
     return degrees * (Math.PI/180)
-  },
+  }
 }
