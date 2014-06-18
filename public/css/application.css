@@ -13,6 +13,7 @@ html {
 body {
   font-family: Helvetica, sans-serif;
   color: #fff;
+  /*text-shadow: 2px 2px 2px #000;*/
   letter-spacing: 2px;
 }
 
@@ -34,7 +35,7 @@ h4 {
 
 .logged-in-header {
   background-color: #1A31A6;
-  background-image: url('/images/beerTimer.svg');
+  background-image: url('/images/GBLogoWithShadows.svg');
   background-repeat: no-repeat;
   background-position: top;
   height: 90px;
@@ -62,22 +63,17 @@ h4 {
 }
 
 .score-box {
-  background-image: url('/images/scoreBox.svg'); background-repeat: no-repeat;
+  background-image: url('/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
   background-position: top;
   margin-top: -5px;
   padding: 10px;
   text-indent: 2px;
-
 }
-
-/*.timer-box {
-  position: relative;
-}*/
 
 .timer {
   position: absolute;
   top: 47px;
-  left: 35.4%;
+  left: 35.3%;
   width: 33%;
   height: 90px;
   text-align: center;
@@ -118,6 +114,7 @@ img {
   background: rgb(26, 49, 165);
   border-radius: 5px;
   border: 3px solid #fff;
+  box-shadow: 2px 2px 2px #000;
 }
 
 .btn:hover, .answer:hover {
@@ -150,7 +147,6 @@ img {
   border: 3px solid #fff;
 }
 
-
 .game-over {
   background:  #C49400;
   width: 50%;
@@ -160,6 +156,7 @@ img {
   margin: 20px auto;
   border: 3px solid #594505;
   border-radius: 5px;
+  display: none; /*turn this on with JS when the time comes */
 }
 
 .start, .logout {
