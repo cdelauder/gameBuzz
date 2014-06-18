@@ -66,8 +66,7 @@ Controller.prototype = {
   proposeGame: function() {
     firebase.makeGameDbLink();
     var message = this.game.proposeGame();
-    this.view.hideChallenge();
-    this.view.displayMessage(message);
+    this.view.showChallengeMade(message);
   },
 
   prepForStartGame: function() {
@@ -92,7 +91,7 @@ Controller.prototype = {
       that.addAnswerListeners();
       that.startQuestionTimer();
     }, function(value) {
-      console.log('you suck more');
+      alert('There was an error loading the first question please refresh your browser.');
     });
   },
 
@@ -136,15 +135,20 @@ Controller.prototype = {
 
   checkAnswer: function() {
     this.cleanTimer();
+    this.evaluateAnswer(event);
+    this.game.nextQuestionId();
+    this.view.updateScore(this.game.displayScore());
+    setTimeout(this.loadQuestion.bind(this), 1000);
+  },
+
+  evaluateAnswer: function(event) {
     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
-      this.view.makeCorrectAnswerGreen(event.target);
+      this.view.highlightCorrectAnswer(event.target);
       this.game.increaseScore();
     } else {
-      this.view.makeIncorrectAnswerRed(event.target);
-      this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+      this.view.strikeIncorrectAnswer(event.target);
+      this.view.highlightCorrectAnswer(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
     }
-    this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 1000);
   },
 
   loadQuestion: function() {

@@ -73,6 +73,11 @@ View.prototype = {
     this.displayLogin();
   },
 
+  showChallengeMade: function(message) {
+    this.view.hideChallenge();
+    this.view.displayMessage(message);
+  },
+
   hideQuizBox: function() {
     this.getQuizBox().css('display', 'none');
   },
@@ -141,12 +146,12 @@ View.prototype = {
     }
   },
 
-  makeIncorrectAnswerRed: function(target) {
+  strikeIncorrectAnswer: function(target) {
     target.style.background = "#594505";
     target.style.textDecoration = 'line-through';
   },
 
-  makeCorrectAnswerGreen: function(target) {
+  highlightCorrectAnswer: function(target) {
     target.style.background = '#C49400';
   },
 
@@ -176,6 +181,10 @@ View.prototype = {
 
   removeAnswerDecoration: function() {
     this.getAnswers().css('text-decoration', 'none')
+  },
+
+  updateScore: function(score) {
+    $('.current-user-info p').text(score)
   },
 
 };
