@@ -31,6 +31,7 @@ Controller.prototype = {
 
   checkPlayerId: function(game) {
     if (game.player_1 === User.uid() || game.player_2 === User.uid()) {
+      this.game.removeProposedGame();
       this.startGame();
     }
   },
@@ -173,6 +174,7 @@ Controller.prototype = {
     this.stopQuestionTimer();
     this.view.hideTimer();
     this.game.resetQuestionId();
+    this.game.removeActiveGame();
   },
 
 };

@@ -77,30 +77,35 @@ Game.prototype = {
   },
 
   proposeGame: function() {
-    firebase.makeGameDbLink().push({user_id: User.uid()});
+    this.proposedGame = firebase.makeGameDbLink().push({user_id: User.uid()});
+    this.proposedGame.onDisconnect().remove()
     return 'waiting for opponent';
   },
 
   make2PlayerGame: function() {
     firebase.makeGameDbLink()
     var proposedGame = firebase.getGameDbLink().startAt().limit(1);
-    // var opponent = proposedGame.once('', function(snapshot) {
-    //     id = snapshot.user_id();
-    //     console.log(id);
-    //     return id;
-      // })
     var opponentId
-
     var opponent = proposedGame.once('value', function(snapshot) {
       var hashObject = snapshot.val();
       for (key in hashObject) {
         var object = hashObject[key];
         opponentId = object.user_id;
         this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
+        this.activeGame.onDisconnect().remove()
       }
     });
-    proposedGame.remove()
   },
+
+  removeProposedGame: function() {
+    if (this.proposedGame) {
+      this.proposedGame.remove()
+    }
+  },
+
+  removeActiveGame: function() {
+    this.activeGame.remove();
+  }
 
 };
 
