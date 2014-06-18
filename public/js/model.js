@@ -134,15 +134,11 @@ var User = {
     });
     promise.then(function(value) {
       User.setUser(value);
-      // User.makeDisconnect()
     }, function(value) {
       console.log('I can;t make users');
     });
   },
 
-  // makeDisconnect: function() {
-  //   firebase.makeConnectedRef().onDisconnect().remove()
-  // },
 
   setUser: function(value) {
     this.available = true;
