@@ -1,10 +1,12 @@
 var placer = {
-  getLocation: function(callback) {
+  userLocation: {},
+
+  getLocation: function() {
 
     // navigator.geolocation ? navigator.geolocation.getCurrentPosition(this.showPosition) : console.log('This browser does not support geoLocation.')
     if (navigator.geolocation) {
-      var response = navigator.geolocation.getCurrentPosition(this.showPosition)
-      callback.call(User.username(), response)
+      var response = navigator.geolocation.getCurrentPosition(this.showPosition.bind(this),this.error,{timeout: 5000})
+      // User.updateLocation({location: response})
 
       return 'working, please wait'
     } else {
@@ -12,11 +14,14 @@ var placer = {
     }
     return response
   },
+  error: function(){
+    console.log("error in geoLocation")
+  },
 
   showPosition: function(position) {
     console.log({latitude: position.coords.latitude, longitude: position.coords.longitude})
-    var userLocation = {latitude: position.coords.latitude, longitude: position.coords.longitude}
-    return userLocation
+    // this.userLocation = {latitude: position.coords.latitude, longitude: position.coords.longitude}
+
   },
 
   getDistanceInMiles: function(latitude1,longitude1,latitude2,longitude2) {

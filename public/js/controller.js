@@ -14,9 +14,7 @@ Controller.prototype = {
     getLogout.on('click', this.logout.bind(this));
     getChallenge.on('click', this.proposeGame.bind(this));
     getAccept.on('click', this.prepForStartGame.bind(this));
-
     firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
-
     },
 
   amIPlaying: function(e) {
@@ -78,13 +76,28 @@ Controller.prototype = {
 
   startGame: function() {
     User.setAvailability(false);
+    this.view.makeGameDisplay();
     this.removeAnswerListeners();
-    this.view.hideStartButton();
-    this.view.hideScore();
     this.game.resetScore();
-    this.view.displayQuizBox();
     this.loadFirstQuestion();
-    this.view.displayTimer();
+  },
+
+
+  loadFirstQuestion: function() {
+    var promise = this.game.loadQuestions();
+    var that = this;
+    promise.then(function(value) {
+      that.view.displayQuestion(that.game.currentQuestion(value));
+      that.view.displayAnswers(that.game.currentAnswers(value));
+      that.addAnswerListeners();
+      that.startQuestionTimer();
+    }, function(value) {
+      console.log('you suck more');
+    });
+  },
+
+  addAnswerListeners: function() {
+    this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
   },
 
   startQuestionTimer: function() {
@@ -110,42 +123,19 @@ Controller.prototype = {
     clearInterval(this.currentTimer);
   },
 
-  loadFirstQuestion: function() {
-    var promise = this.game.loadQuestions();
-    var that = this;
-    promise.then(function(value) {
-      that.view.displayQuestion(that.game.currentQuestion(value));
-      that.view.displayAnswers(that.game.currentAnswers(value));
-      that.addAnswerListeners();
-      that.startQuestionTimer();
-    }, function(value) {
-      console.log('you suck more');
-    });
-  },
-
-  addAnswerListeners: function() {
-    this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
-  },
-
   removeAnswerListeners: function() {
     this.view.getQuizBox().unbind('click');
   },
 
-  removeTextDecoration: function() {
-    this.view.getAnswers().css('text-decoration', 'none');
-  },
-
   timeRanOut: function() {
-    this.removeAnswerListeners();
-    this.stopQuestionTimer();
+    this.cleanTimer();
     this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
     this.game.nextQuestionId();
     setTimeout(this.loadQuestion.bind(this), 1500);
   },
 
   checkAnswer: function() {
-    this.removeAnswerListeners();
-    this.stopQuestionTimer();
+    this.cleanTimer();
     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
       this.view.makeCorrectAnswerGreen(event.target);
       this.game.increaseScore();
@@ -158,7 +148,7 @@ Controller.prototype = {
   },
 
   loadQuestion: function() {
-    this.removeTextDecoration();
+    this.view.removeAnswerDecoration();
     if ( this.game.gameOver() ) {
       this.endGame();
     } else {
@@ -171,10 +161,15 @@ Controller.prototype = {
 
   endGame: function() {
     this.view.endGame(this.game.displayScore());
-    this.stopQuestionTimer();
+    this.cleanTimer();
     this.view.hideTimer();
     this.game.resetQuestionId();
     this.game.removeActiveGame();
+  },
+
+  cleanTimer: function() {
+    this.removeAnswerListeners();
+    this.stopQuestionTimer();
   },
 
 };

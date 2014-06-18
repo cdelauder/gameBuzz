@@ -150,9 +150,10 @@ var User = {
     this.username = value.displayName;
     this.userId = value.id;
     this.authToken = value.firebaseAuthToken;
-    var userLocation = placer.getLocation(User.create.bind(this))
-    // debugger
-    // this.create(this.username, userLocation);
+    this.create(this.username);
+
+    // placer.getLocation()
+    // var userLocation = placer.userLocation
   },
 
   logout: function() {
@@ -161,10 +162,9 @@ var User = {
     this.auth.logout();
   },
 
-  create: function(name, location) {
-    debugger
+  create: function(name) {
     this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users');
-    this.user = this.userData.push({name: name, location: location, available: true});
+    this.user = this.userData.push({name: name, available: true});
     this.user.onDisconnect().remove();
   },
 
@@ -173,7 +173,7 @@ var User = {
   },
 
   updateLocation: function(location) {
-
+    this.user.update(location)
   },
 
   destroy: function() {

@@ -168,4 +168,15 @@ View.prototype = {
     container.appendChild(newMessage)
   },
 
+  makeGameDisplay: function() {
+    this.hideStartButton();
+    this.hideScore();
+    this.displayQuizBox();
+    this.displayTimer();
+  },
+
+  removeAnswerDecoration: function() {
+    this.getAnswers().css('text-decoration', 'none')
+  },
+
 };
