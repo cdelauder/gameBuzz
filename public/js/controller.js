@@ -158,40 +158,22 @@ Controller.prototype = {
 
   loadQuestion: function() {
     this.removeTextDecoration();
-    this.checkGameOver();
-    this.startQuestionTimer();
-    this.view.displayQuestion(this.game.nextQuestion());
-    this.view.displayAnswers(this.game.nextAnswers());
-    this.addAnswerListeners();
+    if ( this.game.gameOver() ) {
+      this.endGame();
+    } else {
+      this.startQuestionTimer();
+      this.view.displayQuestion(this.game.nextQuestion());
+      this.view.displayAnswers(this.game.nextAnswers());
+      this.addAnswerListeners();
+    }
   },
 
-  checkGameOver: function() {
-    if (this.game.gameOver()) {
-      this.view.endGame(this.game.displayScore());
-      this.stopQuestionTimer();
-      this.view.hideTimer();
-      this.game.resetQuestionId();
-    }
+  endGame: function() {
+    this.view.endGame(this.game.displayScore());
+    this.stopQuestionTimer();
+    this.view.hideTimer();
+    this.game.resetQuestionId();
   },
 
 };
 
-// var promise = {
-//   waitForMe: function(callback, args) {
-//     var waiting = new RSVP.Promise(function(resolve, reject) {
-//     debugger
-//       var result = callback(args);
-//       if (callback() !== undefined) {
-//         resolve(result);
-//       } else {
-//         reject(console.log('there was an error in the promise module'));
-//       }
-//     });
-
-//     waiting.then(function(value) {
-//       return value;
-//     }), (function(value) {
-//       console.log('there was an error in the then function of the promise module');
-//     })
-//   }
-// }
