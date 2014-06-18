@@ -99,7 +99,7 @@ Game.prototype = {
         this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
       }
     });
-    // proposedGame.remove()
+    proposedGame.remove()
   },
 
 };
@@ -134,17 +134,15 @@ var User = {
     });
     promise.then(function(value) {
       User.setUser(value);
-      User.makeDisconnect()
+      // User.makeDisconnect()
     }, function(value) {
       console.log('I can;t make users');
     });
   },
 
-  makeDisconnect: function() {
-    firebase.makeConnectedRef.on('value', function() {
-      this.user.onDisconnect().remove();
-    });
-  },
+  // makeDisconnect: function() {
+  //   firebase.makeConnectedRef().onDisconnect().remove()
+  // },
 
   setUser: function(value) {
     this.available = true;
@@ -163,6 +161,7 @@ var User = {
   create: function(name, location) {
     this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users');
     this.user = this.userData.push({name: name, location: location, available: true});
+    this.user.onDisconnect().remove();
   },
 
   dbLink: function() {
@@ -238,7 +237,7 @@ var firebase = {
   },
 
   makeConnectedRef: function() {
-    return this.connectedRef = new Firebase('https://gamebuzz.firebaseio.com//.info/connected')
+    return this.connectedRef = new Firebase('https://gamebuzz.firebaseio.com/disconnectmessage')
   },
 
   authenticate: function() {
