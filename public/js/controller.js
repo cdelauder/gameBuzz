@@ -1,181 +1,175 @@
-function Controller(view, game) {
+function Controller(view, game, user) {
   this.view = view;
   this.game = game;
+  this.user = user;
 }
 
 Controller.prototype = {
   bindListeners: function() {
     var getLogout = this.view.getLogout();
     var getLogin = this.view.getLogin();
-    var getChallenge = this.view.getChallenge();
-    var getAccept = this.view.getAccept();
+    var getStart = this.view.getStart();
 
     getLogin.on('click', this.login.bind(this));
-    getLogout.on('click', this.logout.bind(this));
-    getChallenge.on('click', this.proposeGame.bind(this));
-    getAccept.on('click', this.prepForStartGame.bind(this));
+    // getLogout.on('click', this.logout.bind(this));
+    getStart.on('click', this.readyForGame.bind(this));
 
-    firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
-
-    },
-
-  amIPlaying: function(e) {
-    if (User.current_user() && User.available) {
-      var gameObjects = e.val();
-      for (key in gameObjects) {
-        var object = gameObjects[key];
-        this.checkPlayerId(object);
-      }
-    }
+    // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
   },
 
-  checkPlayerId: function(game) {
-    if (game.player_1 === User.uid() || game.player_2 === User.uid()) {
-      this.game.removeProposedGame();
-      this.startGame();
-    }
-  },
+  // amIPlaying: function(e) {
+  //   if (this.user.current_user() && this.user.available) {
+  //     var gameObjects = e.val();
+  //     for (key in gameObjects) {
+  //       var object = gameObjects[key];
+  //       this.checkPlayerId(object);
+  //     }
+  //   }
+  // },
 
-  getActiveGames: function() {
-    firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this));
-  },
+//   checkPlayerId: function(game) {
+//     if (game.player_1 === this.user.uid() || game.player_2 === this.user.uid()) {
+//       this.game.removeProposedGame();
+//       this.readyForGame();
+//     }
+//   },
+
+//   getActiveGames: function() {
+//     firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this));
+//   },
 
   login: function() {
-    User.authenticate(this.enterGameEnvironment.bind(this));
-    User.login();
+    this.user.authenticate();
+    this.user.login(this.enterGameEnvironment.bind(this));
   },
 
   enterGameEnvironment: function() {
-    if (User.current_user) {
+    if (this.user.current_user) {
       this.view.userLoggedIn();
-      this.game.checkForGames(this.showChallengeOrAccepButton.bind(this));
+      this.view.displayStart()
     }
   },
 
-  showChallengeOrAccepButton: function(status) {
-    if (status) {
-      this.view.displayAccept();
-    } else {
-      this.view.displayChallenge();
-    }
+  // logout: function() {
+  //   this.user.logout();
+  //   this.view.userLoggedOut();
+  // },
+
+//   proposeGame: function() {
+//     firebase.makeGameDbLink();
+//     var message = this.game.proposeGame();
+//     this.view.hideChallenge();
+//     this.view.displayMessage(message);
+//   },
+
+//   prepForStartGame: function() {
+//     this.game.make2PlayerGame();
+//   },
+
+  readyForGame: function() {
+
   },
 
-  logout: function() {
-    User.logout();
-    this.view.userLoggedOut();
-  },
+//   startGame: function() {
+//     this.user.setAvailability(false);
+//     this.removeAnswerListeners();
+//     this.view.hideStartButton();
+//     this.view.hideScore();
+//     this.game.resetScore();
+//     this.view.displayQuizBox();
+//     this.loadFirstQuestion();
+//     this.view.displayTimer();
+//   },
 
-  proposeGame: function() {
-    firebase.makeGameDbLink();
-    var message = this.game.proposeGame();
-    this.view.hideChallenge();
-    this.view.displayMessage(message);
-  },
+//   startQuestionTimer: function() {
+//     this.view.setCountDownTime(20);
+//     this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
+//   },
 
-  prepForStartGame: function() {
-    this.game.make2PlayerGame();
-  },
+//   countDownTimer: function() {
+//     var time = this.view.getCountDownTime();
+//     this.deincrementTimer(time);
+//   },
 
-  startGame: function() {
-    User.setAvailability(false);
-    this.removeAnswerListeners();
-    this.view.hideStartButton();
-    this.view.hideScore();
-    this.game.resetScore();
-    this.view.displayQuizBox();
-    this.loadFirstQuestion();
-    this.view.displayTimer();
-  },
+//   deincrementTimer: function(time) {
+//     time --;
+//     if (time < 0) {
+//       this.timeRanOut();
+//     } else {
+//       this.view.setCountDownTime(time);
+//     }
+//   },
 
-  startQuestionTimer: function() {
-    this.view.setCountDownTime(20);
-    this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
-  },
+//   stopQuestionTimer: function(time) {
+//     clearInterval(this.currentTimer);
+//   },
 
-  countDownTimer: function() {
-    var time = this.view.getCountDownTime();
-    this.deincrementTimer(time);
-  },
+//   loadFirstQuestion: function() {
+//     var promise = this.game.loadQuestions();
+//     var that = this;
+//     promise.then(function(value) {
+//       that.view.displayQuestion(that.game.currentQuestion(value));
+//       that.view.displayAnswers(that.game.currentAnswers(value));
+//       that.addAnswerListeners();
+//       that.startQuestionTimer();
+//     }, function(value) {
+//       console.log('you suck more');
+//     });
+//   },
 
-  deincrementTimer: function(time) {
-    time --;
-    if (time < 0) {
-      this.timeRanOut();
-    } else {
-      this.view.setCountDownTime(time);
-    }
-  },
+//   addAnswerListeners: function() {
+//     this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
+//   },
 
-  stopQuestionTimer: function(time) {
-    clearInterval(this.currentTimer);
-  },
+//   removeAnswerListeners: function() {
+//     this.view.getQuizBox().unbind('click');
+//   },
 
-  loadFirstQuestion: function() {
-    var promise = this.game.loadQuestions();
-    var that = this;
-    promise.then(function(value) {
-      that.view.displayQuestion(that.game.currentQuestion(value));
-      that.view.displayAnswers(that.game.currentAnswers(value));
-      that.addAnswerListeners();
-      that.startQuestionTimer();
-    }, function(value) {
-      console.log('you suck more');
-    });
-  },
+//   removeTextDecoration: function() {
+//     this.view.getAnswers().css('text-decoration', 'none');
+//   },
 
-  addAnswerListeners: function() {
-    this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
-  },
+//   timeRanOut: function() {
+//     this.removeAnswerListeners();
+//     this.stopQuestionTimer();
+//     this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+//     this.game.nextQuestionId();
+//     setTimeout(this.loadQuestion.bind(this), 1500);
+//   },
 
-  removeAnswerListeners: function() {
-    this.view.getQuizBox().unbind('click');
-  },
+//   checkAnswer: function() {
+//     this.removeAnswerListeners();
+//     this.stopQuestionTimer();
+//     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
+//       this.view.makeCorrectAnswerGreen(event.target);
+//       this.game.increaseScore();
+//     } else {
+//       this.view.makeIncorrectAnswerRed(event.target);
+//       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+//     }
+//     this.game.nextQuestionId();
+//     setTimeout(this.loadQuestion.bind(this), 1000);
+//   },
 
-  removeTextDecoration: function() {
-    this.view.getAnswers().css('text-decoration', 'none');
-  },
+//   loadQuestion: function() {
+//     this.removeTextDecoration();
+//     if ( this.game.gameOver() ) {
+//       this.endGame();
+//     } else {
+//       this.startQuestionTimer();
+//       this.view.displayQuestion(this.game.nextQuestion());
+//       this.view.displayAnswers(this.game.nextAnswers());
+//       this.addAnswerListeners();
+//     }
+//   },
 
-  timeRanOut: function() {
-    this.removeAnswerListeners();
-    this.stopQuestionTimer();
-    this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-    this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 1500);
-  },
-
-  checkAnswer: function() {
-    this.removeAnswerListeners();
-    this.stopQuestionTimer();
-    if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
-      this.view.makeCorrectAnswerGreen(event.target);
-      this.game.increaseScore();
-    } else {
-      this.view.makeIncorrectAnswerRed(event.target);
-      this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-    }
-    this.game.nextQuestionId();
-    setTimeout(this.loadQuestion.bind(this), 1000);
-  },
-
-  loadQuestion: function() {
-    this.removeTextDecoration();
-    if ( this.game.gameOver() ) {
-      this.endGame();
-    } else {
-      this.startQuestionTimer();
-      this.view.displayQuestion(this.game.nextQuestion());
-      this.view.displayAnswers(this.game.nextAnswers());
-      this.addAnswerListeners();
-    }
-  },
-
-  endGame: function() {
-    this.view.endGame(this.game.displayScore());
-    this.stopQuestionTimer();
-    this.view.hideTimer();
-    this.game.resetQuestionId();
-    this.game.removeActiveGame();
-  },
+//   endGame: function() {
+//     this.view.endGame(this.game.displayScore());
+//     this.stopQuestionTimer();
+//     this.view.hideTimer();
+//     this.game.resetQuestionId();
+//     this.game.removeActiveGame();
+//   },
 
 };
 

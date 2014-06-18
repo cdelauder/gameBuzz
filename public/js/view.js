@@ -7,21 +7,11 @@ function View() {
   this.gameOver = '.game-over';
   this.login = '.login';
   this.timer = '.timer';
-  this.accept = '.accept';
-  this.challenge = '.challenge';
 }
 
 View.prototype = {
   getStart: function() {
     return $(this.startButton);
-  },
-
-  getChallenge: function() {
-    return $(this.challenge);
-  },
-
-  getAccept: function() {
-    return $(this.accept);
   },
 
   getLogout: function() {
@@ -93,24 +83,8 @@ View.prototype = {
     this.getTimer().css('display', 'none');
   },
 
-  hideChallenge: function() {
-    this.getChallenge().css('display', 'none');
-  },
-
-  hideAccept: function() {
-    this.getAccept().css('display', 'none');
-  },
-
   displayLogin: function() {
     this.getLogin().css('display', 'block');
-  },
-
-  displayChallenge: function() {
-    this.getChallenge().css('display', 'block');
-  },
-
-  displayAccept: function() {
-    this.getAccept().css('display', 'block');
   },
 
   displayLogout: function() {
