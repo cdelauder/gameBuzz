@@ -158,7 +158,8 @@ img {
   text-align: center;
   color: #fff;
   margin: 20px auto;
-
+  border: 3px solid #594505;
+  border-radius: 5px;
 }
 
 .start, .logout {
