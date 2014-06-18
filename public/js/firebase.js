@@ -1,4 +1,10 @@
-var firebase = {
+function FirebaseDB() {
+  this.users = []
+  this.games = []
+  this.questions = []
+}
+
+FirebaseDB.prototype = {
   makeLink: function() {
     return this.dbLink = new Firebase('https://gamebuzz.firebaseio.com')
   },

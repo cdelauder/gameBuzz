@@ -23,6 +23,8 @@ User.prototype = {
     });
   },
 
+  
+
   login: function(callback) {
     var that = this;
     var promise = new RSVP.Promise(function(resolve, reject) {
@@ -33,6 +35,7 @@ User.prototype = {
         reject(console.log('user authentication failed'));
       }
     });
+
     promise.then(function(value) {
       that.setUser(value);
       callback.call(this);
