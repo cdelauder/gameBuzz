@@ -23,7 +23,7 @@ User.prototype = {
     });
   },
 
-  
+
 
   login: function(callback) {
     var that = this;
@@ -45,11 +45,11 @@ User.prototype = {
   },
 
   setUser: function(value) {
-    this.available = true;
+    this.available = false;
     this.username = value.displayName;
     this.userId = value.id;
     this.authToken = value.firebaseAuthToken;
-    this.create(this.username, 'location');
+    this.create(this.username, 'location', this.available, this.userId);
   },
 
   logout: function() {
@@ -58,9 +58,10 @@ User.prototype = {
     this.auth.logout();
   },
 
-  create: function(name, location) {
-    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users');
-    this.user = this.userData.push({name: name, location: location, available: true});
+  create: function(name, location, available, userId) {
+    this.userData = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users/' + userId);
+    this.user = this.userData.set({name: name, location: location, available: available});
+    // this.userData.set({available: true})
     this.user.onDisconnect().remove();
   },
 

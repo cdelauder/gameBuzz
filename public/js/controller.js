@@ -1,7 +1,8 @@
-function Controller(view, game, user) {
+function Controller(view, game, user, firebase) {
   this.view = view;
   this.game = game;
   this.user = user;
+  this.firebase = firebase;
 }
 
 Controller.prototype = {
@@ -13,6 +14,7 @@ Controller.prototype = {
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
     getStart.on('click', this.readyForGame.bind(this));
+    this.firebase.getAvailableUsers();
 
     // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
   },
@@ -68,7 +70,8 @@ Controller.prototype = {
 //   },
 
   readyForGame: function() {
-
+    // var numberOfUsers = this.firebase.getAvailableUsers()
+    // if(numberOfUsers)
   },
 
 //   startGame: function() {

@@ -1,10 +1,61 @@
 function FirebaseDB() {
-  this.users = []
-  this.games = []
-  this.questions = []
+  this.userReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users')
 }
 
 FirebaseDB.prototype = {
+  // var userTesting = 0
+  // this.userReference.on('value', function(snapshot) {
+  //   userTesting = snapshot.val()
+  // })
+  // for (var key in userTesting) {
+  //   if (userTesting.hasOwnProperty(key)) {
+  //     console.log(userTesting[key]);
+  //   }
+  // }
+  // for (var key in userTesting) {
+  //   if (userTesting.hasOwnProperty(key)) {
+  //     console.log(userTesting[key].available);
+  //   }
+  // },
+
+  getAvailableUsers: function() {
+    var users
+    var userCount = 0
+    this.userReference.on('value', function(snapshot) {
+      users = snapshot.val()
+    });
+    for (var user in users) {
+      if (users.hasOwnProperty(user)) {
+        if (users[user].available === true) {
+          userCount++
+        }
+      }
+    }
+    return userCount
+  },
+
+  setUserAvailabilityToFalse: function(newUserId) {
+    var users
+    var currentUser
+    this.userReference.on('value', function(snapshot) {
+      users = snapshot.val()
+    });
+    for (var user in users) {
+      if (users.hasOwnProperty(user)) {
+        if (users[user].userId === newUserId) {
+          currentUser = users[user]
+          currentUser.set({available: false})    
+        }
+      }
+    }
+  },
+
+
+
+
+
+
+
   makeLink: function() {
     return this.dbLink = new Firebase('https://gamebuzz.firebaseio.com')
   },
