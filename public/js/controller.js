@@ -33,6 +33,8 @@ Controller.prototype = {
   },
 
   logout: function() {
+    this.stopQuestionTimer();
+    this.view.hideTimer();
     this.auth.logout();
   },
 
@@ -118,20 +120,21 @@ Controller.prototype = {
 
   loadQuestion: function() {
     this.removeTextDecoration();
-    this.checkGameOver();
-    this.startQuestionTimer();
-    this.view.displayQuestion(this.game.nextQuestion());
-    this.view.displayAnswers(this.game.nextAnswers());
-    this.addAnswerListeners();
+    if ( this.game.gameOver() ) {
+      this.endGame();
+    } else {
+      this.startQuestionTimer();
+      this.view.displayQuestion(this.game.nextQuestion());
+      this.view.displayAnswers(this.game.nextAnswers());
+      this.addAnswerListeners();
+    }
   },
 
-  checkGameOver: function() {
-    if (this.game.gameOver()) {
-      this.view.endGame(this.game.displayScore());
-      this.stopQuestionTimer();
-      this.view.hideTimer();
-      this.game.resetQuestionId();
-    }
+  endGame: function() {
+    this.view.endGame(this.game.displayScore());
+    this.stopQuestionTimer();
+    this.view.hideTimer();
+    this.game.resetQuestionId();
   },
 
 };
