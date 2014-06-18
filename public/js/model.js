@@ -104,7 +104,9 @@ Game.prototype = {
   },
 
   removeActiveGame: function() {
-    this.activeGame.remove();
+    if (this.activeGame) {
+      this.activeGame.remove();
+    }
   }
 
 };

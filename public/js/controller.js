@@ -165,6 +165,11 @@ Controller.prototype = {
     this.view.hideTimer();
     this.game.resetQuestionId();
     this.game.removeActiveGame();
+    this.nextGame();
+  },
+
+  nextGame: function() {
+    this.game.checkForGames(this.showChallengeOrAccepButton.bind(this));
   },
 
   cleanTimer: function() {
