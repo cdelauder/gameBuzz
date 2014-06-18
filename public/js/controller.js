@@ -11,21 +11,24 @@ Controller.prototype = {
     var getStart = this.view.getStart();
 
     getLogin.on('click', this.login.bind(this));
-    // getLogout.on('click', this.logout.bind(this));
+    getLogout.on('click', this.logout.bind(this));
     getStart.on('click', this.readyForGame.bind(this));
 
     // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
   },
 
-  // amIPlaying: function(e) {
-  //   if (this.user.current_user() && this.user.available) {
-  //     var gameObjects = e.val();
-  //     for (key in gameObjects) {
-  //       var object = gameObjects[key];
-  //       this.checkPlayerId(object);
-  //     }
-  //   }
-  // },
+
+
+
+  amIPlaying: function(e) {
+    if (this.user.current_user() && this.user.available) {
+      var gameObjects = e.val();
+      for (key in gameObjects) {
+        var object = gameObjects[key];
+        this.checkPlayerId(object);
+      }
+    }
+  },
 
 //   checkPlayerId: function(game) {
 //     if (game.player_1 === this.user.uid() || game.player_2 === this.user.uid()) {
@@ -40,20 +43,18 @@ Controller.prototype = {
 
   login: function() {
     this.user.authenticate();
-    this.user.login(this.enterGameEnvironment.bind(this));
+    this.user.login(this.userLoggedIn.bind(this));
   },
 
-  enterGameEnvironment: function() {
-    if (this.user.current_user) {
-      this.view.userLoggedIn();
-      this.view.displayStart()
-    }
+  userLoggedIn: function() {
+    this.view.userLoggedIn();
+    this.view.displayStart()
   },
 
-  // logout: function() {
-  //   this.user.logout();
-  //   this.view.userLoggedOut();
-  // },
+  logout: function() {
+    this.user.logout();
+    this.view.userLoggedOut();
+  },
 
 //   proposeGame: function() {
 //     firebase.makeGameDbLink();

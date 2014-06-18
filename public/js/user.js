@@ -3,7 +3,8 @@ function User() {
   this.location = ''
   this.userId = ''
   this.available = ''
-  this.gameId = 0
+  this.gameId = 1
+  this.firebaseToken = ''
 }
 
 User.prototype = {
@@ -11,10 +12,10 @@ User.prototype = {
     var gameBuzz = new Firebase('https://gamebuzz.firebaseio.com');
     var that = this;
     this.auth = new FirebaseSimpleLogin(gameBuzz, function(error, user) {
+      
       if (error) {
         alert(error);
       } else if (user) {
-        // callback.call(this);
         return true;
       } else {
         return false;
