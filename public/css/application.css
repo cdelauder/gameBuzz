@@ -182,3 +182,7 @@ img {
   border: 3px solid #594505;
   border-radius: 5px;
 }
+
+.challenge {
+  width: 30%;
+}
