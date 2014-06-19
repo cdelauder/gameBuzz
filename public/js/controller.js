@@ -40,11 +40,22 @@ Controller.prototype = {
     this.user.available = false
     this.firebase.setUserAvailabilityToFalse(this.user.userId)
   },
+  startGame: function() {
+    this.removeAnswerListeners();
+    this.view.hideStartButton();
+    this.view.hideScore();
+    this.game.resetScore();
+    this.view.displayQuizBox();
+    this.loadFirstQuestion();
+    this.view.displayTimer();
+  },
+
   readyForGame: function() {
     this.setUserAvailabilityToTrue()
     if (this.firebase.getAvailableUsers() >= this.game.numberOfPlayers) {
       var players = this.getAvailablePlayersForGame()
       this.firebase.makeTriviaRound(players, this.firebase.gameSetQuestions)
+      this.startGame()
     } else {
       this.view.displayMessage("waiting for players to join game")
     }
@@ -54,7 +65,7 @@ Controller.prototype = {
   },
   test: function() {
     debugger
-  }
+  },
 
 
 
@@ -102,95 +113,95 @@ Controller.prototype = {
 //     this.view.displayTimer();
 //   },
 
-//   startQuestionTimer: function() {
-//     this.view.setCountDownTime(20);
-//     this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
-//   },
+  startQuestionTimer: function() {
+    this.view.setCountDownTime(20);
+    this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
+  },
 
-//   countDownTimer: function() {
-//     var time = this.view.getCountDownTime();
-//     this.deincrementTimer(time);
-//   },
+  countDownTimer: function() {
+    var time = this.view.getCountDownTime();
+    this.deincrementTimer(time);
+  },
 
-//   deincrementTimer: function(time) {
-//     time --;
-//     if (time < 0) {
-//       this.timeRanOut();
-//     } else {
-//       this.view.setCountDownTime(time);
-//     }
-//   },
+  deincrementTimer: function(time) {
+    time --;
+    if (time < 0) {
+      this.timeRanOut();
+    } else {
+      this.view.setCountDownTime(time);
+    }
+  },
 
-//   stopQuestionTimer: function(time) {
-//     clearInterval(this.currentTimer);
-//   },
+  stopQuestionTimer: function(time) {
+    clearInterval(this.currentTimer);
+  },
 
-//   loadFirstQuestion: function() {
-//     var promise = this.game.loadQuestions();
-//     var that = this;
-//     promise.then(function(value) {
-//       that.view.displayQuestion(that.game.currentQuestion(value));
-//       that.view.displayAnswers(that.game.currentAnswers(value));
-//       that.addAnswerListeners();
-//       that.startQuestionTimer();
-//     }, function(value) {
-//       console.log('you suck more');
-//     });
-//   },
+  loadFirstQuestion: function() {
+    var promise = this.game.loadQuestions();
+    var that = this;
+    promise.then(function(value) {
+      that.view.displayQuestion(that.game.currentQuestion(value));
+      that.view.displayAnswers(that.game.currentAnswers(value));
+      that.addAnswerListeners();
+      that.startQuestionTimer();
+    }, function(value) {
+      console.log('you suck more');
+    });
+  },
 
-//   addAnswerListeners: function() {
-//     this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
-//   },
+  addAnswerListeners: function() {
+    this.view.getQuizBox().on('click', '.answer', this.checkAnswer.bind(this));
+  },
 
-//   removeAnswerListeners: function() {
-//     this.view.getQuizBox().unbind('click');
-//   },
+  removeAnswerListeners: function() {
+    this.view.getQuizBox().unbind('click');
+  },
 
-//   removeTextDecoration: function() {
-//     this.view.getAnswers().css('text-decoration', 'none');
-//   },
+  removeTextDecoration: function() {
+    this.view.getAnswers().css('text-decoration', 'none');
+  },
 
-//   timeRanOut: function() {
-//     this.removeAnswerListeners();
-//     this.stopQuestionTimer();
-//     this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-//     this.game.nextQuestionId();
-//     setTimeout(this.loadQuestion.bind(this), 1500);
-//   },
+  timeRanOut: function() {
+    this.removeAnswerListeners();
+    this.stopQuestionTimer();
+    this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+    this.game.nextQuestionId();
+    setTimeout(this.loadQuestion.bind(this), 1500);
+  },
 
-//   checkAnswer: function() {
-//     this.removeAnswerListeners();
-//     this.stopQuestionTimer();
-//     if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
-//       this.view.makeCorrectAnswerGreen(event.target);
-//       this.game.increaseScore();
-//     } else {
-//       this.view.makeIncorrectAnswerRed(event.target);
-//       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
-//     }
-//     this.game.nextQuestionId();
-//     setTimeout(this.loadQuestion.bind(this), 1000);
-//   },
+  checkAnswer: function() {
+    this.removeAnswerListeners();
+    this.stopQuestionTimer();
+    if(this.game.checkCorrectAnswer() == event.target.dataset.id) {
+      this.view.makeCorrectAnswerGreen(event.target);
+      this.game.increaseScore();
+    } else {
+      this.view.makeIncorrectAnswerRed(event.target);
+      this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+    }
+    this.game.nextQuestionId();
+    setTimeout(this.loadQuestion.bind(this), 1000);
+  },
 
-//   loadQuestion: function() {
-//     this.removeTextDecoration();
-//     if ( this.game.gameOver() ) {
-//       this.endGame();
-//     } else {
-//       this.startQuestionTimer();
-//       this.view.displayQuestion(this.game.nextQuestion());
-//       this.view.displayAnswers(this.game.nextAnswers());
-//       this.addAnswerListeners();
-//     }
-//   },
+  loadQuestion: function() {
+    this.removeTextDecoration();
+    if ( this.game.gameOver() ) {
+      this.endGame();
+    } else {
+      this.startQuestionTimer();
+      this.view.displayQuestion(this.game.nextQuestion());
+      this.view.displayAnswers(this.game.nextAnswers());
+      this.addAnswerListeners();
+    }
+  },
 
-//   endGame: function() {
-//     this.view.endGame(this.game.displayScore());
-//     this.stopQuestionTimer();
-//     this.view.hideTimer();
-//     this.game.resetQuestionId();
-//     this.game.removeActiveGame();
-//   },
+  endGame: function() {
+    this.view.endGame(this.game.displayScore());
+    this.stopQuestionTimer();
+    this.view.hideTimer();
+    this.game.resetQuestionId();
+    this.game.removeActiveGame();
+  },
 
 };
 
