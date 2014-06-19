@@ -82,7 +82,7 @@ Game.prototype = {
       var game = games[key]
       if (game === null) {
         return false;
-      } else if (User.userId() === game.user_id) {
+      } else if (User.userId === game.user_id) {
         return false
       } else {
         return true;
