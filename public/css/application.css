@@ -35,7 +35,7 @@ h4 {
 
 .logged-in-header {
   background-color: #1A31A6;
-  background-image: url('/images/GBLogoWithShadows.svg');
+  background-image: url('public/css/images/GBLogoWithShadows.svg');
   background-repeat: no-repeat;
   background-position: top;
   height: 90px;
@@ -63,7 +63,7 @@ h4 {
 }
 
 .score-box {
-  background-image: url('/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
+  background-image: url('public/css/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
   background-position: top;
   margin-top: -5px;
   padding: 10px;
@@ -156,7 +156,7 @@ img {
   margin: 20px auto;
   border: 3px solid #594505;
   border-radius: 5px;
-  display: none; /*turn this on with JS when the time comes */
+  display: none;
 }
 
 .start, .logout {
@@ -178,7 +178,7 @@ img {
   text-align: center;
   color: #fff;
   margin: 20px auto;
-padding: 10px;
+  padding: 10px;
   border: 3px solid #594505;
   border-radius: 5px;
 }
