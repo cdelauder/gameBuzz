@@ -4,6 +4,7 @@ function Game() {
   this.currentScore = 0;
   this.activeGame = undefined
 }
+
 Game.prototype = {
     loadQuestions: function() {
     var questionData = new Firebase('https://gamebuzz.firebaseio.com/');
@@ -29,33 +30,43 @@ Game.prototype = {
   currentQuestion: function(value) {
     return value[this.questionId].question;
   },
+
   currentAnswers: function(value) {
     return value[this.questionId].answers;
   },
+
   nextQuestionId: function() {
     this.questionId++;
   },
+
   nextQuestion: function() {
     return this.questionSet[this.questionId].question;
   },
+
   nextAnswers: function() {
     return this.questionSet[this.questionId].answers;
   },
+
   checkCorrectAnswer: function() {
     return this.questionSet[this.questionId].correct_id;
   },
+
   increaseScore: function() {
     this.currentScore++;
   },
+
   gameOver: function() {
     return this.questionSet.length === this.questionId;
   },
+
   displayScore: function() {
     return this.currentScore;
   },
+
   resetScore: function() {
     this.currentScore = 0;
   },
+
   resetQuestionId: function() {
     this.questionId = 0;
   },
@@ -169,7 +180,6 @@ var User = {
       console.log('I can;t make users');
     });
   },
-
 
   setUser: function(value) {
     this.available = true;
