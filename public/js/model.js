@@ -2,6 +2,7 @@ function Game() {
   this.questionSet = "";
   this.questionId = 0;
   this.currentScore = 0;
+  this.activeGame = undefined
 }
 Game.prototype = {
     loadQuestions: function() {
@@ -104,6 +105,7 @@ Game.prototype = {
   },
 
   removeActiveGame: function() {
+    debugger
     if (this.activeGame) {
       this.activeGame.remove();
     }
