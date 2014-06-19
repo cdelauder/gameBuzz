@@ -61,12 +61,20 @@ Game.prototype = {
   },
 
   checkForGames: function(callback) {
+    this.gamelink = firebase.makeGameDbLink();
+   this.makeGameListenter(callback)
+  },
+
+  makeGameListenter: function(callback) {
     var that = this;
-    var link = firebase.makeGameDbLink();
-    link.once('value', function(snapshot) {
-      var gamesAvailable = that.gamesAvailable( snapshot.val());
+    this.gamelink.on('value', function(snapshot) {
+      var gamesAvailable = that.gamesAvailable(snapshot.val());
       callback.call(this, gamesAvailable)
     });
+  },
+
+  endGameListener: function() {
+    this.gamelink.off()
   },
 
   gamesAvailable: function(games) {
@@ -91,6 +99,7 @@ Game.prototype = {
   make2PlayerGame: function() {
     firebase.makeGameDbLink()
     var proposedGame = firebase.getGameDbLink().startAt().limit(1);
+    this.endGameListener();
     var opponentId
     var opponent = proposedGame.once('value', function(snapshot) {
       var hashObject = snapshot.val();

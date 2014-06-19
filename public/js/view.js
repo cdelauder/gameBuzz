@@ -192,4 +192,14 @@ View.prototype = {
     $('.current-user-info p').text(score)
   },
 
+  gameAvailable: function() {
+    this.displayAccept();
+    this.hideChallenge();
+  },
+
+  noGameAvailable: function() {
+    this.displayChallenge();
+    this.hideAccept();
+  },
+
 };

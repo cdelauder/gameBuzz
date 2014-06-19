@@ -52,9 +52,9 @@ Controller.prototype = {
 
   showChallengeOrAccepButton: function(status) {
     if (status) {
-      this.view.displayAccept();
+      this.view.gameAvailable();
     } else {
-      this.view.displayChallenge();
+      this.view.noGameAvailable();
     }
   },
 
