@@ -55,7 +55,7 @@ Game.prototype = {
   },
   increaseScore: function() {
     this.currentScore++;
-    updateScore()
+    this.updateScores()
   },
   gameOver: function() {
     return this.questionSet.length === this.questionId;
@@ -137,10 +137,10 @@ Game.prototype = {
   },
 
   updateScores: function() {
-    if (player1 === true) {
-     this.activeGame.update({player_1_Score: this.current_score})
+    if (this.player1 === true) {
+      firebase.getActiveGameDbLink().update({player_1_Score: this.current_score})
     } else {
-      this.activeGame.update({player_2_Score: this.current_score})
+      firebase.getActiveGameDbLink().update({player_2_Score: this.current_score})
     }
   },
 
