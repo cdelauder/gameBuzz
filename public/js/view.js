@@ -164,6 +164,10 @@ View.prototype = {
     this.getGameOver().css('display', 'none')
   },
 
+  hideMessage: function() {
+    $('.message').hide()
+  },
+
   displayMessage: function(message) {
     var container = document.querySelector('.container')
     var newMessage = document.createElement('div')
@@ -173,6 +177,7 @@ View.prototype = {
   },
 
   makeGameDisplay: function() {
+    this.hideMessage();
     this.hideStartButton();
     this.hideScore();
     this.displayQuizBox();
