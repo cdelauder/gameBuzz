@@ -1,9 +1,17 @@
 function FirebaseDB() {
   this.userReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users')
+  this.quizReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/questions')
+  this.gameReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/trivaRound')
 }
 
 FirebaseDB.prototype = {
-
+  getQuizQuestions: function() {
+    var questions
+    this.quizReference.on('value', function(snapshot) {
+      questions = snapshot.val()
+    });
+    return questions
+  },
   getAvailableUsers: function() {
     var users
     var userCount = 0
@@ -27,30 +35,33 @@ FirebaseDB.prototype = {
     newReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users/' + userId)
     newReference.update({available: false})
   },
+  addPlayersToGame: function(numberOfPlayers) {
+    var players
+    var playersAdded = []
+    this.userReference.on('value', function(snapshot) {
+      players = snapshot.val()
+    });
+    for (var player in players) {
+      if (playersAdded.length < numberOfPlayers) {
+        if (players.hasOwnProperty(player)) {
+          if (players[player].available === true) {
+            playersAdded.push(players[player])
+          }
+        }
+      }
+    }
+    return playersAdded
+  },
+  makeTriviaRound: function(players, quiz) {
+    this.trivaRound = this.gameReference;
+    this.trivaRound.push({});
+    this.trivaRound.set({players: players, quiz: quiz});
+    this.trivaRound.onDisconnect().remove();
+  },
 
-
-
-
-  // setUserAvailabilityToFalse: function(newUserId) {
-  //   var users
-  //   var currentUser
-  //   this.userReference.on('value', function(snapshot) {
-  //     users = snapshot.val()
-  //   });
-  //   for (var user in users) {
-  //     if (users.hasOwnProperty(user)) {
-  //       if (users[user].userId === newUserId) {
-  //         currentUser = users[user]
-  //         currentUser.set({available: false})    
-  //       }
-  //     }
-  //   }
-  // },
-
-
-
-
-
+  deleteTriviaRound: function() {
+    this.trivaRound.remove();
+  },
 
   makeLink: function() {
     return this.dbLink = new Firebase('https://gamebuzz.firebaseio.com')

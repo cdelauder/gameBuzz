@@ -38,9 +38,16 @@ Controller.prototype = {
   },
   readyForGame: function() {
     this.setUserAvailabilityToTrue()
-    console.log(this.firebase.getAvailableUsers())
-    // var numberOfUsers = this.firebase.getAvailableUsers()
-    // if(numberOfUsers)
+    if (this.firebase.getAvailableUsers() >= this.game.numberOfPlayers) {
+      var players = this.getAvailablePlayersForGame()
+      this.game.questionSet = this.firebase.getQuizQuestions()
+      // var triviaRound = this.firebase
+    } else {
+      this.view.displayMessage("waiting for players to join game")
+    }
+  },
+  getAvailablePlayersForGame: function() {
+    return this.firebase.addPlayersToGame(this.game.numberOfPlayers)
   },
   // amIPlaying: function(e) {
   //   if (this.user.current_user() && this.user.available) {
@@ -73,6 +80,7 @@ Controller.prototype = {
 //     this.game.make2PlayerGame();
 //   },
 
+/////////////GamePlay Logic//////////////////
 
 //   startGame: function() {
 //     this.user.setAvailability(false);

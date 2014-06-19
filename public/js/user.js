@@ -3,6 +3,7 @@ function User() {
   this.location = ''
   this.userId = ''
   this.available = ''
+  this.score = 0
   this.gameId = 1
   this.firebaseToken = ''
 }
