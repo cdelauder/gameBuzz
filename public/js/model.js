@@ -21,7 +21,7 @@ Game.prototype = {
     }
     else
     {
-      reject( console.log("shit is messssssed up ERROR"));
+      reject( console.log("your questions were never returned"));
     }
   },
 

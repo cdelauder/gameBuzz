@@ -59,6 +59,7 @@ Controller.prototype = {
   },
 
   logout: function() {
+    if (this.currentTimer) {this.cleanTimer()}
     User.logout();
     this.view.userLoggedOut();
   },
@@ -101,15 +102,19 @@ Controller.prototype = {
 
   startQuestionTimer: function() {
     this.view.setCountDownTime(20);
+    this.makeTimer()
+  },
+
+  makeTimer: function() {
     this.currentTimer = window.setInterval(this.countDownTimer.bind(this), 1000);
   },
 
   countDownTimer: function() {
     var time = this.view.getCountDownTime();
-    this.deincrementTimer(time);
+    this.decrementTimer(time);
   },
 
-  deincrementTimer: function(time) {
+  decrementTimer: function(time) {
     time --;
     if (time < 0) {
       this.timeRanOut();
@@ -120,6 +125,7 @@ Controller.prototype = {
 
   stopQuestionTimer: function(time) {
     clearInterval(this.currentTimer);
+    this.currentTimer = undefined;
   },
 
   removeAnswerListeners: function() {
@@ -128,9 +134,17 @@ Controller.prototype = {
 
   timeRanOut: function() {
     this.cleanTimer();
-    this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
+    this.nextQuestion();
+  },
+
+  nextQuestion: function() {
+    this.showCorrectAnswer();
     this.game.nextQuestionId();
     setTimeout(this.loadQuestion.bind(this), 1500);
+  },
+
+  showCorrectAnswer: function() {
+    this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
   },
 
   checkAnswer: function() {
