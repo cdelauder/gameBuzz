@@ -74,8 +74,8 @@ View.prototype = {
   },
 
   showChallengeMade: function(message) {
-    this.view.hideChallenge();
-    this.view.displayMessage(message);
+    this.hideChallenge();
+    this.displayMessage(message);
   },
 
   hideQuizBox: function() {
