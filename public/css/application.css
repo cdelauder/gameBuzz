@@ -10,14 +10,81 @@ html {
   background: #051359;
 }
 
+body {
+  font-family: Helvetica, sans-serif;
+  color: #fff;
+  /*text-shadow: 2px 2px 2px #000;*/
+  letter-spacing: 2px;
+}
+
 header {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  margin-bottom: 90px;
+}
+
+
+header.logo {
   margin: 10px;
+}
+
+h4 {
+  font-weight: normal;
+}
+
+.logged-in-header {
+  background-color: #1A31A6;
+  background-image: url('/images/GBLogoWithShadows.svg');
+  background-repeat: no-repeat;
+  background-position: top;
+  height: 90px;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
+.current-user-info {
+  width: 33%;
+  text-align: center;
+  margin-top: -10px;
+  clear: both;
+}
+
+.competitor-info {
+  width: 33%;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.score-box {
+  background-image: url('/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
+  background-position: top;
+  margin-top: -5px;
+  padding: 10px;
+  text-indent: 2px;
+}
+
+.timer {
+  position: absolute;
+  top: 47px;
+  left: 35.3%;
+  width: 33%;
+  height: 90px;
+  text-align: center;
+  color: #fff;
+  font-size: 1em;
+  clear: both;
 }
 
 header img {
   display: block;
   margin: 0 auto;
-
 }
 
 img {
@@ -33,6 +100,10 @@ img {
   text-align: center
 }
 
+.container {
+  margin-top: 115px;
+}
+
 .btn, .answer {
   width: 45%;
   color: #fff;
@@ -43,6 +114,11 @@ img {
   background: rgb(26, 49, 165);
   border-radius: 5px;
   border: 3px solid #fff;
+  box-shadow: 2px 2px 2px #000;
+}
+
+.btn:hover, .answer:hover {
+  cursor: pointer;
 }
 
 .quiz-box {
@@ -54,14 +130,13 @@ img {
 
 .question {
   margin: 10px auto 20px auto;
-  width: 56%;
+  /*width: 56%;*/
   color: #fff;
-  font-size: 1.6em;
+  font-size: 1em;
 }
 
 .answer {
-  /*margin-bottom: 7px;*/
-  width: 45%;
+  width: 70%;
   color: #fff;
   font-size: 1.2em;
   text-align: center;
@@ -72,24 +147,38 @@ img {
   border: 3px solid #fff;
 }
 
-.timer {
-  width: 50%;
-  text-align: center;
-  color: #fff;
-  margin: 20px auto;
-  font-size: 1.5em;
-}
-
 .game-over {
-  background: #999;
-  width: 50%;
+  background:  #C49400;
+  width: 20%;
+  font-size: 1.5em;
   text-align: center;
   color: #fff;
   margin: 20px auto;
-  font-size: 1.5em;
+  border: 3px solid #594505;
+  border-radius: 5px;
+  display: none; /*turn this on with JS when the time comes */
 }
 
 .start, .logout {
   display: none;
   margin-bottom: 20px;
+  width: 20%;
+  font-size: .85em;
+}
+
+.login {
+  width: 20%;
+  font-size: .85em;
+}
+
+.message {
+  background:  #C49400;
+  width: 20%;
+  font-size: 1.5em;
+  text-align: center;
+  color: #fff;
+  margin: 20px auto;
+padding: 10px;
+  border: 3px solid #594505;
+  border-radius: 5px;
 }
