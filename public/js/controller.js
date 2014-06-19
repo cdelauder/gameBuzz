@@ -9,48 +9,60 @@ Controller.prototype = {
     var getLogout = this.view.getLogout();
     var getLogin = this.view.getLogin();
     var getStart = this.view.getStart();
+
     getLogin.on('click', this.login.bind(this));
     getLogout.on('click', this.logout.bind(this));
     getStart.on('click', this.readyForGame.bind(this));
-    this.firebase.getAvailableUsers();
     $('.test').on('click', this.test.bind(this));
+
+    this.firebase.getAvailableUsers();
     this.firebase.getQuizQuestions();
     this.firebase.gameReference.on('child_added', this.startGame.bind(this));
+  },
+
+  test: function() {
+    debugger
   },
 
   login: function() {
     this.user.authenticate();
     this.user.login(this.userLoggedIn.bind(this));
   },
+
   userLoggedIn: function() {
     this.view.userLoggedIn();
     this.view.displayStart()
   },
+
   logout: function() {
+    if (this.currentTimer) {this.stopQuestionTimer}
     this.user.logout();
     this.view.userLoggedOut();
   },
+
   setUserAvailabilityToTrue: function() {
     this.user.available = true
     this.firebase.setUserAvailabilityToTrue(this.user.userId)
-
   },
+
   setUserAvailabilityToFalse: function() {
     this.user.available = false
     this.firebase.setUserAvailabilityToFalse(this.user.userId)
   },
+
   startGame: function() {
     this.removeAnswerListeners();
     this.view.hideStartButton();
     this.view.hideScore();
     this.game.resetScore();
-    this.view.displayQuizBox();
     this.loadFirstQuestion();
     this.view.displayTimer();
+    this.view.displayQuizBox();
   },
 
   readyForGame: function() {
     this.setUserAvailabilityToTrue()
+    this.game.questionSet = this.firebase.gameSetQuestions
     if (this.firebase.getAvailableUsers() >= this.game.numberOfPlayers) {
       var players = this.getAvailablePlayersForGame()
       this.firebase.makeTriviaRound(players, this.firebase.gameSetQuestions)
@@ -58,58 +70,10 @@ Controller.prototype = {
       this.view.displayMessage("waiting for players to join game")
     }
   },
+
   getAvailablePlayersForGame: function() {
     return this.firebase.addPlayersToGame(this.game.numberOfPlayers)
   },
-  test: function() {
-    debugger
-  },
-
-
-
-  // amIPlaying: function(e) {
-  //   if (this.user.current_user() && this.user.available) {
-  //     var gameObjects = e.val();
-  //     for (key in gameObjects) {
-  //       var object = gameObjects[key];
-  //       this.checkPlayerId(object);
-  //     }
-  //   }
-  // },
-//   checkPlayerId: function(game) {
-//     if (game.player_1 === this.user.uid() || game.player_2 === this.user.uid()) {
-//       this.game.removeProposedGame();
-//       this.readyForGame();
-//     }
-//   },
-
-//   getActiveGames: function() {
-//     firebase.getActiveGameDbLink().once('value', this.amIPlaying.bind(this));
-//   },
-
-//   proposeGame: function() {
-//     firebase.makeGameDbLink();
-//     var message = this.game.proposeGame();
-//     this.view.hideChallenge();
-//     this.view.displayMessage(message);
-//   },
-
-//   prepForStartGame: function() {
-//     this.game.make2PlayerGame();
-//   },
-
-/////////////GamePlay Logic//////////////////
-
-//   startGame: function() {
-//     this.user.setAvailability(false);
-//     this.removeAnswerListeners();
-//     this.view.hideStartButton();
-//     this.view.hideScore();
-//     this.game.resetScore();
-//     this.view.displayQuizBox();
-//     this.loadFirstQuestion();
-//     this.view.displayTimer();
-//   },
 
   startQuestionTimer: function() {
     this.view.setCountDownTime(20);
@@ -132,6 +96,7 @@ Controller.prototype = {
 
   stopQuestionTimer: function(time) {
     clearInterval(this.currentTimer);
+    this.currentTimer = undefined;
   },
 
   loadFirstQuestion: function() {
@@ -195,6 +160,7 @@ Controller.prototype = {
 
   endGame: function() {
     this.view.endGame(this.game.displayScore());
+    this.removeAnswerListeners();
     this.stopQuestionTimer();
     this.view.hideTimer();
     this.game.resetQuestionId();

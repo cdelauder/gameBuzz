@@ -6,6 +6,7 @@ function Game() {
   this.player2 = ""
   this.numberOfPlayers = 2
 }
+
 Game.prototype = {
   loadQuestions: function() {
     var questionData = new Firebase('https://gamebuzz.firebaseio.com/');
@@ -61,52 +62,4 @@ Game.prototype = {
   resetQuestionId: function() {
     this.questionId = 0;
   },
-}
-  // checkForGames: function(callback) {
-  //   var that = this;
-  //   var link = firebase.makeGameDbLink();
-  //   link.once('value', function(snapshot) {
-  //     var gamesAvailable = that.gamesAvailable( snapshot.val());
-  //     callback.call(this, gamesAvailable)
-  //   });
-  // },
-
-  // gamesAvailable: function(games) {
-  //   if (games === null) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // },
-
-  // proposeGame: function() {
-  //   this.proposedGame = firebase.makeGameDbLink().push({user_id: User.uid()});
-  //   this.proposedGame.onDisconnect().remove()
-  //   return 'waiting for opponent';
-  // },
-
-  // make2PlayerGame: function() {
-  //   firebase.makeGameDbLink()
-  //   var proposedGame = firebase.getGameDbLink().startAt().limit(1);
-  //   var opponentId
-  //   var opponent = proposedGame.once('value', function(snapshot) {
-  //     var hashObject = snapshot.val();
-  //     for (key in hashObject) {
-  //       var object = hashObject[key];
-  //       opponentId = object.user_id;
-  //       this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
-  //       this.activeGame.onDisconnect().remove()
-  //     }
-  //   });
-  // },
-
-  // removeProposedGame: function() {
-  //   if (this.proposedGame) {
-  //     this.proposedGame.remove()
-  //   }
-  // },
-
-//   removeActiveGame: function() {
-//     this.activeGame.remove();
-//   }
-// };
+};
