@@ -86,8 +86,7 @@ Controller.prototype = {
   },
 
   makeScoreListener: function() {
-    // debugger
-    this.getActiveGame().on('child_changed', this.updateOpponentScore.bind(this))
+    firebase.getActiveGameDbLink().on('child_changed', this.updateOpponentScore.bind(this))
   },
 
   updateOpponentScore: function(change) {

@@ -128,7 +128,7 @@ Game.prototype = {
 
   makeActiveGame: function(opponentId) {
     this.activeGame = firebase.getActiveGameDbLink().push({player_2: opponentId, player_2_score: 0, player_1: User.uid(), player_1_score: 0});
-    makeActiveGameListeners();
+    this.makeActiveGameListeners();
     this.player1 =true
   },
 
