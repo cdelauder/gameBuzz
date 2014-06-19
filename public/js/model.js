@@ -78,10 +78,15 @@ Game.prototype = {
   },
 
   gamesAvailable: function(games) {
-    if (games === null) {
-      return false;
-    } else {
-      return true;
+    for (key in games) {
+      var game = games[key]
+      if (game === null) {
+        return false;
+      } else if (User.userId() === game.user_id) {
+        return false
+      } else {
+        return true;
+      }
     }
   },
 
