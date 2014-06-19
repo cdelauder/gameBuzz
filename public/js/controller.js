@@ -100,16 +100,10 @@ Controller.prototype = {
   },
 
   loadFirstQuestion: function() {
-    var promise = this.game.loadQuestions();
-    var that = this;
-    promise.then(function(value) {
-      that.view.displayQuestion(that.game.currentQuestion(value));
-      that.view.displayAnswers(that.game.currentAnswers(value));
-      that.addAnswerListeners();
-      that.startQuestionTimer();
-    }, function(value) {
-      console.log('you suck more');
-    });
+    this.view.displayQuestion(this.game.currentQuestion);
+    this.view.displayAnswers(this.game.currentAnswers);
+    this.addAnswerListeners();
+    this.startQuestionTimer();
   },
 
   addAnswerListeners: function() {
@@ -142,7 +136,7 @@ Controller.prototype = {
       this.view.makeIncorrectAnswerRed(event.target);
       this.view.makeCorrectAnswerGreen(this.view.getAnswers()[this.game.checkCorrectAnswer()]);
     }
-    this.game.nextQuestionId();
+    this.game.incrementQuestionId();
     setTimeout(this.loadQuestion.bind(this), 1000);
   },
 
@@ -166,6 +160,5 @@ Controller.prototype = {
     this.game.resetQuestionId();
     this.game.removeActiveGame();
   },
-
 };
 

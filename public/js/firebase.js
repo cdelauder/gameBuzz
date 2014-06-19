@@ -9,7 +9,7 @@ FirebaseDB.prototype = {
 
   getQuizQuestions: function() {
     var that = this
-    this.quizReference.on('value', function(snapshot) {
+    this.quizReference.once('value', function(snapshot) {
       that.gameSetQuestions = (snapshot.val())
     });
   },
