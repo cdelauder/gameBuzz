@@ -35,7 +35,7 @@ h4 {
 
 .logged-in-header {
   background-color: #1A31A6;
-  background-image: url('public/css/images/GBLogoWithShadows.svg');
+  background-image: url('public/images/GBLogoWithShadows.svg');
   background-repeat: no-repeat;
   background-position: top;
   height: 90px;
@@ -63,7 +63,7 @@ h4 {
 }
 
 .score-box {
-  background-image: url('public/css/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
+  background-image: url('public/images/scoreBoxShadow.svg'); background-repeat: no-repeat;
   background-position: top;
   margin-top: -5px;
   padding: 10px;
