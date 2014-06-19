@@ -13,8 +13,12 @@ Controller.prototype = {
     getLogout.on('click', this.logout.bind(this));
     getStart.on('click', this.readyForGame.bind(this));
     this.firebase.getAvailableUsers();
+    $('.test').on('click', this.test.bind(this));
+    this.firebase.getQuizQuestions();
     // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
   },
+
+
   login: function() {
     this.user.authenticate();
     this.user.login(this.userLoggedIn.bind(this));
@@ -40,8 +44,7 @@ Controller.prototype = {
     this.setUserAvailabilityToTrue()
     if (this.firebase.getAvailableUsers() >= this.game.numberOfPlayers) {
       var players = this.getAvailablePlayersForGame()
-      this.game.questionSet = this.firebase.getQuizQuestions()
-      // var triviaRound = this.firebase
+      this.firebase.makeTriviaRound(players, this.firebase.gameSetQuestions)
     } else {
       this.view.displayMessage("waiting for players to join game")
     }
@@ -49,6 +52,12 @@ Controller.prototype = {
   getAvailablePlayersForGame: function() {
     return this.firebase.addPlayersToGame(this.game.numberOfPlayers)
   },
+  test: function() {
+    debugger
+  }
+
+
+
   // amIPlaying: function(e) {
   //   if (this.user.current_user() && this.user.available) {
   //     var gameObjects = e.val();

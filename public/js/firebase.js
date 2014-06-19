@@ -2,15 +2,16 @@ function FirebaseDB() {
   this.userReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/users')
   this.quizReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/questions')
   this.gameReference = new Firebase('https://gamebuzz.firebaseio.com/-JPbgRPRsqDJNz37rMVs/trivaRound')
+  this.gameSetQuestions = ''
 }
 
 FirebaseDB.prototype = {
+
   getQuizQuestions: function() {
-    var questions
+    var that = this
     this.quizReference.on('value', function(snapshot) {
-      questions = snapshot.val()
+      that.gameSetQuestions = (snapshot.val())
     });
-    return questions
   },
   getAvailableUsers: function() {
     var users
