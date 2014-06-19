@@ -202,4 +202,8 @@ View.prototype = {
     this.hideAccept();
   },
 
+  updateOpponentScore: function(score) {
+    $('.competitor-info p').text(score)
+  }
+
 };

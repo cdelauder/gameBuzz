@@ -3,6 +3,7 @@ function Game() {
   this.questionId = 0;
   this.currentScore = 0;
   this.activeGame = undefined
+  this.player1 = false
 }
 Game.prototype = {
     loadQuestions: function() {
@@ -26,6 +27,14 @@ Game.prototype = {
     }
   },
 
+  startGame: function() {
+    this.resetScore()
+  },
+
+  getActiveGame: function() {
+    return this.activeGame
+  },
+
   currentQuestion: function(value) {
     return value[this.questionId].question;
   },
@@ -46,6 +55,7 @@ Game.prototype = {
   },
   increaseScore: function() {
     this.currentScore++;
+    updateScore()
   },
   gameOver: function() {
     return this.questionSet.length === this.questionId;
@@ -117,11 +127,25 @@ Game.prototype = {
   },
 
   makeActiveGame: function(opponentId) {
-    this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
+    this.activeGame = firebase.getActiveGameDbLink().push({player_2: opponentId, player_2_score: 0, player_1: User.uid(), player_1_score: 0});
+    makeActiveGameListeners();
+    this.player1 =true
+  },
+
+  makeActiveGameListeners: function() {
     this.activeGame.onDisconnect().remove()
   },
 
-  removeProposedGame: function() {
+  updateScores: function() {
+    if (player1 === true) {
+     this.activeGame.update({player_1_Score: this.current_score})
+    } else {
+      this.activeGame.update({player_2_Score: this.current_score})
+    }
+  },
+
+  removeProposedGame: function(game) {
+    this.activeGame = game
     if (this.proposedGame) {
       this.proposedGame.remove()
     }

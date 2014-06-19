@@ -29,7 +29,8 @@ Controller.prototype = {
 
   checkPlayerId: function(game) {
     if (game.player_1 === User.uid() || game.player_2 === User.uid()) {
-      this.game.removeProposedGame();
+      this.game.activeGame = game
+      this.game.removeProposedGame(game);
       this.startGame();
     }
   },
@@ -76,11 +77,21 @@ Controller.prototype = {
   },
 
   startGame: function() {
+    this.game.startGame()
+    this.makeScoreListener()
     User.setAvailability(false);
     this.view.makeGameDisplay();
     this.removeAnswerListeners();
-    this.game.resetScore();
     this.loadFirstQuestion();
+  },
+
+  makeScoreListener: function() {
+    // debugger
+    this.getActiveGame().on('child_changed', this.updateOpponentScore.bind(this))
+  },
+
+  updateOpponentScore: function(change) {
+    this.view.updateOpponentScore(change.player_2_score)
   },
 
   loadFirstQuestion: function() {
