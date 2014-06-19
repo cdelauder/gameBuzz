@@ -1,41 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!--
-    normalize.css removes cross-browser differences in defaults, e.g.,
-    differences in how form elements appear between Firefox and IE
-    See: http://necolas.github.com/normalize.css/
-  -->
+
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
   <link rel="stylesheet" href="public/css/normalize.css">
-  <!--
-    application.css is where you put your styles
-  -->
   <link rel="stylesheet" href="public/css/application.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
   <script type="text/javascript" src='https://cdn.firebase.com/js/client/1.0.15/firebase.js'></script>
+  <script type='text/javascript' src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'></script>
 
-  <script type='text/javascript'
-          src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'>
-  </script>
-
-  <script src="public/js/fb.js"></script>
-  <script src="vendor/js/rsvp.js"></script>
+  <script src="vendor/rsvp.js"></script>
   <script src="public/js/view.js"></script>
   <script src="public/js/model.js"></script>
   <script src="public/js/controller.js"></script>
   <script src="public/js/init.js"></script>
-  <script src="public/js/location.js"></script>
-  <title></title>
+
+  <title>Game Buzz</title>
 </head>
+
 <body>
-  <header class="logo">
-    <img src="public/images/GameBuzzWordLogo.png">
+
+  <header class="logged-in-header">
+    <div class="current-user-info float-left">
+      <h4>You</h4>
+        <p class="score-box">0</p>
+    </div>
+
+    <div class="timer-box">
+      <div class="timer float-left">
+      </div>
+    </div>
+
+    <div class="competitor-info float-right">
+      <h4>Opponent</h4>
+        <p class="score-box">0</p>
+    </div>
   </header>
 
   <div class="container">
-
     <div class="btn login">
       Login
     </div>
@@ -44,11 +47,12 @@
       Logout
     </div>
 
-    <div class="btn start">
-      Start Game
+    <div class="btn start challenge">
+      Challenge
     </div>
 
-    <div class="timer">
+    <div class="btn start accept">
+      Accept
     </div>
 
     <div class="quiz-box">
@@ -63,8 +67,10 @@
       <div class="answer" data-id='3'>
       </div>
     </div>
+
     <div class="game-over">
     </div>
   </div>
+
 </body>
 </html>

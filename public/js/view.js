@@ -1,17 +1,27 @@
-function View(opts) {
-  this.startButton = opts['start'];
-  this.logout = opts['logout'];
-  this.quizBox = opts['quizBox'];
-  this.questionField = opts['questionField'];
-  this.answers = opts['answer'];
-  this.gameOver = opts['gameOver'];
-  this.login = opts['login'];
-  this.timer = opts['timer'];
+function View() {
+  this.startButton = '.start';
+  this.logout = '.logout';
+  this.quizBox = '.quiz-box';
+  this.questionField = '.question';
+  this.answers = '.answer';
+  this.gameOver = '.game-over';
+  this.login = '.login';
+  this.timer = '.timer';
+  this.accept = '.accept';
+  this.challenge = '.challenge';
 }
 
 View.prototype = {
   getStart: function() {
     return $(this.startButton);
+  },
+
+  getChallenge: function() {
+    return $(this.challenge);
+  },
+
+  getAccept: function() {
+    return $(this.accept);
   },
 
   getLogout: function() {
@@ -47,13 +57,12 @@ View.prototype = {
   },
 
   setCountDownTime: function(countDownTime) {
-    return this.getTimer().text(countDownTime)
+    return this.getTimer().text(countDownTime);
   },
 
   userLoggedIn: function() {
     this.hideLoginButton();
     this.displayLogout();
-    this.displayStart();
   },
 
   userLoggedOut: function() {
@@ -62,6 +71,11 @@ View.prototype = {
     this.hideScore();
     this.hideQuizBox();
     this.displayLogin();
+  },
+
+  showChallengeMade: function(message) {
+    this.hideChallenge();
+    this.displayMessage(message);
   },
 
   hideQuizBox: function() {
@@ -84,8 +98,24 @@ View.prototype = {
     this.getTimer().css('display', 'none');
   },
 
+  hideChallenge: function() {
+    this.getChallenge().css('display', 'none');
+  },
+
+  hideAccept: function() {
+    this.getAccept().css('display', 'none');
+  },
+
   displayLogin: function() {
     this.getLogin().css('display', 'block');
+  },
+
+  displayChallenge: function() {
+    this.getChallenge().css('display', 'block');
+  },
+
+  displayAccept: function() {
+    this.getAccept().css('display', 'block');
   },
 
   displayLogout: function() {
@@ -93,7 +123,7 @@ View.prototype = {
   },
 
   displayTimer: function() {
-    this.getTimer().css('display', 'block')
+    this.getTimer().css('display', 'block');
   },
 
   displayQuizBox: function() {
@@ -116,23 +146,60 @@ View.prototype = {
     }
   },
 
-  makeIncorrectAnswerRed: function(target) {
+  strikeIncorrectAnswer: function(target) {
     target.style.background = "#594505";
     target.style.textDecoration = 'line-through';
   },
 
-  makeCorrectAnswerGreen: function(target) {
+  highlightCorrectAnswer: function(target) {
     target.style.background = '#C49400';
   },
 
   endGame: function(score) {
     this.getQuizBox().css('display', 'none');
     this.getGameOver().css('display', 'block').text('You got ' + score + ' correct');
-    this.getStart().css('display', 'block');
   },
 
   hideScore: function() {
     this.getGameOver().css('display', 'none')
+  },
+
+  hideMessage: function() {
+    $('.message').hide()
+  },
+
+  displayMessage: function(message) {
+    var container = document.querySelector('.container')
+    var newMessage = document.createElement('div')
+    newMessage.innerHTML = message
+    newMessage.className = 'message'
+    container.appendChild(newMessage)
+  },
+
+  makeGameDisplay: function() {
+    this.hideMessage();
+    this.hideStartButton();
+    this.hideScore();
+    this.displayQuizBox();
+    this.displayTimer();
+  },
+
+  removeAnswerDecoration: function() {
+    this.getAnswers().css('text-decoration', 'none')
+  },
+
+  updateScore: function(score) {
+    $('.current-user-info p').text(score)
+  },
+
+  gameAvailable: function() {
+    this.displayAccept();
+    this.hideChallenge();
+  },
+
+  noGameAvailable: function() {
+    this.displayChallenge();
+    this.hideAccept();
   },
 
 };
