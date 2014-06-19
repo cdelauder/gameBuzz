@@ -15,9 +15,8 @@ Controller.prototype = {
     this.firebase.getAvailableUsers();
     $('.test').on('click', this.test.bind(this));
     this.firebase.getQuizQuestions();
-    // firebase.makeActiveGameDbLink().on('child_added', this.getActiveGames.bind(this));
+    this.firebase.gameReference.on('child_added', this.startGame.bind(this));
   },
-
 
   login: function() {
     this.user.authenticate();
@@ -55,7 +54,6 @@ Controller.prototype = {
     if (this.firebase.getAvailableUsers() >= this.game.numberOfPlayers) {
       var players = this.getAvailablePlayersForGame()
       this.firebase.makeTriviaRound(players, this.firebase.gameSetQuestions)
-      this.startGame()
     } else {
       this.view.displayMessage("waiting for players to join game")
     }
