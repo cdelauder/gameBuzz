@@ -60,6 +60,7 @@ Controller.prototype = {
 
   logout: function() {
     if (this.currentTimer) {this.cleanTimer()}
+    this.game.removeGames();
     User.logout();
     this.view.userLoggedOut();
   },
@@ -81,7 +82,6 @@ Controller.prototype = {
     this.game.resetScore();
     this.loadFirstQuestion();
   },
-
 
   loadFirstQuestion: function() {
     var promise = this.game.loadQuestions();

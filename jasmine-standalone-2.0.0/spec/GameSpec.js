@@ -88,5 +88,19 @@ describe ('questions', function() {
     })
   })
 
-  describe('')
+  describe('gameOver', function() {
+    it('should return true if we have gone through all questions', function() {
+      game.questionSet = value
+      game.questionId = 2
+      result = game.gameOver()
+      expect(result).toBe(true)
+    })
+
+     it('should return false if we have not gone through all questions', function() {
+      game.questionSet = value
+      game.questionId = 1
+      result = game.gameOver()
+      expect(result).toBe(false)
+    })
+  })
 })

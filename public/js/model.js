@@ -83,6 +83,11 @@ Game.prototype = {
     return 'waiting for opponent';
   },
 
+  removeGames: function() {
+    this.removeProposedGame();
+    this.removeActiveGame();
+  },
+
   make2PlayerGame: function() {
     firebase.makeGameDbLink()
     var proposedGame = firebase.getGameDbLink().startAt().limit(1);
@@ -92,10 +97,14 @@ Game.prototype = {
       for (key in hashObject) {
         var object = hashObject[key];
         opponentId = object.user_id;
-        this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
-        this.activeGame.onDisconnect().remove()
+        this.makeActiveGame(opponentId)
       }
-    });
+    }.bind(this));
+  },
+
+  makeActiveGame: function(opponentId) {
+    this.activeGame = firebase.getActiveGameDbLink().push({player_1: opponentId, player_2: User.uid()});
+    this.activeGame.onDisconnect().remove()
   },
 
   removeProposedGame: function() {
@@ -105,7 +114,6 @@ Game.prototype = {
   },
 
   removeActiveGame: function() {
-    debugger
     if (this.activeGame) {
       this.activeGame.remove();
     }
